@@ -1,27 +1,29 @@
 import { motion } from 'framer-motion';
 import { Award, Shield, Users, MapPin, Heart, TrendingUp } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function About() {
+  const { t } = useLanguage();
   const values = [
     {
       icon: Shield,
-      title: 'Trust & Safety',
-      description: 'Your safety is our top priority. All vehicles undergo rigorous maintenance checks.',
+      title: t('about.values.trustSafety.title'),
+      description: t('about.values.trustSafety.description'),
     },
     {
       icon: Award,
-      title: 'Excellence',
-      description: 'We strive for excellence in every aspect of our service delivery.',
+      title: t('about.values.excellence.title'),
+      description: t('about.values.excellence.description'),
     },
     {
       icon: Heart,
-      title: 'Customer First',
-      description: 'Your satisfaction drives everything we do. We go the extra mile for you.',
+      title: t('about.values.customerFirst.title'),
+      description: t('about.values.customerFirst.description'),
     },
     {
       icon: TrendingUp,
-      title: 'Innovation',
-      description: 'Embracing technology to provide seamless booking and rental experiences.',
+      title: t('about.values.innovation.title'),
+      description: t('about.values.innovation.description'),
     },
   ];
 
@@ -47,7 +49,7 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-bold mb-4"
           >
-            About JK Cars
+            {t('about.title')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -55,7 +57,7 @@ export default function About() {
             transition={{ delay: 0.2 }}
             className="text-xl text-brand-100 max-w-2xl mx-auto"
           >
-            Driving innovation in car rental and tourism across Tunisia
+            {t('about.subtitle')}
           </motion.p>
         </div>
       </div>
@@ -68,20 +70,15 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('about.ourStory')}</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Founded in Hammamet, JK Cars has grown to become Tunisia's premier car rental and excursion service. 
-                What started as a small family business with just three vehicles has evolved into a comprehensive mobility solution 
-                serving thousands of satisfied customers across the country.
+                {t('about.storyParagraph1')}
               </p>
               <p className="text-gray-600 leading-relaxed mb-4">
-                We understand that exploring Tunisia requires reliable transportation and expert guidance. That's why we've built 
-                a company that combines cutting-edge technology with traditional Tunisian hospitality, offering both modern vehicles 
-                and authentic cultural experiences.
+                {t('about.storyParagraph2')}
               </p>
               <p className="text-gray-600 leading-relaxed">
-                Our mission is simple: to provide transparent, affordable, and exceptional service that makes your journey through 
-                Tunisia unforgettable. From the Mediterranean coast to the Sahara Desert, we're with you every mile of the way.
+                {t('about.storyParagraph3')}
               </p>
             </motion.div>
 
@@ -93,19 +90,19 @@ export default function About() {
             >
               <div className="bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl p-8 text-white shadow-xl">
                 <div className="text-5xl font-bold mb-2">10+</div>
-                <div className="text-brand-100">Years Experience</div>
+                <div className="text-brand-100">{t('about.stats.yearsExperience')}</div>
               </div>
               <div className="bg-gradient-to-br from-brand-600 to-brand-700 rounded-2xl p-8 text-white shadow-xl">
                 <div className="text-5xl font-bold mb-2">10+</div>
-                <div className="text-brand-100">Premium Vehicles</div>
+                <div className="text-brand-100">{t('about.stats.premiumVehicles')}</div>
               </div>
               <div className="bg-gradient-to-br from-brand-700 to-brand-800 rounded-2xl p-8 text-white shadow-xl">
                 <div className="text-5xl font-bold mb-2">500+</div>
-                <div className="text-brand-100">Happy Clients</div>
+                <div className="text-brand-100">{t('about.stats.happyClients')}</div>
               </div>
               <div className="bg-gradient-to-br from-brand-500 to-brand-700 rounded-2xl p-8 text-white shadow-xl">
                 <div className="text-5xl font-bold mb-2">20+</div>
-                <div className="text-brand-100">Destinations</div>
+                <div className="text-brand-100">{t('about.stats.destinations')}</div>
               </div>
             </motion.div>
           </div>
@@ -120,9 +117,9 @@ export default function About() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('about.ourValues')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              The principles that guide everything we do
+              {t('about.valuesDescription')}
             </p>
           </motion.div>
 
@@ -158,9 +155,9 @@ export default function About() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 mb-6 shadow-xl shadow-brand-500/30">
               <MapPin className="w-8 h-8 text-white" strokeWidth={2} />
             </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Nationwide Coverage</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('about.nationwideCoverage')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-              We operate across Tunisia, serving all major cities and tourist destinations
+              {t('about.coverageDesc')}
             </p>
           </motion.div>
 

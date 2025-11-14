@@ -14,10 +14,12 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import excursionsDataRaw from '@/data/excursions.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const excursionsData = excursionsDataRaw as Excursion[];
 
 export default function Excursions() {
+  const { t } = useLanguage();
   const [selectedExcursion, setSelectedExcursion] = useState<Excursion | null>(null);
   const [persons, setPersons] = useState(1);
   const [date, setDate] = useState('');
@@ -79,10 +81,10 @@ export default function Excursions() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Discover Tunisia
+            {t('excursions.title')}
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Explore the rich heritage and stunning landscapes of Tunisia with our curated excursions
+            {t('excursions.description')}
           </p>
         </motion.div>
 
@@ -101,7 +103,7 @@ export default function Excursions() {
       <Dialog open={!!selectedExcursion} onOpenChange={() => setSelectedExcursion(null)}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl">Book Your Excursion</DialogTitle>
+            <DialogTitle className="text-2xl">{t('excursions.bookExcursion')}</DialogTitle>
           </DialogHeader>
 
           {selectedExcursion && (
@@ -113,7 +115,7 @@ export default function Excursions() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="date">Date</Label>
+                  <Label htmlFor="date">{t('excursions.selectDate')}</Label>
                   <Input
                     id="date"
                     type="date"
@@ -124,7 +126,7 @@ export default function Excursions() {
                 </div>
 
                 <div>
-                  <Label htmlFor="persons">Number of Persons</Label>
+                  <Label htmlFor="persons">{t('excursions.numberOfPersons')}</Label>
                   <Input
                     id="persons"
                     type="number"
@@ -137,7 +139,7 @@ export default function Excursions() {
               </div>
 
               <div>
-                <Label htmlFor="carType">Vehicle Type</Label>
+                <Label htmlFor="carType">{t('excursions.vehicleType')}</Label>
                 <Select value={carType} onValueChange={setCarType}>
                   <SelectTrigger data-testid="select-car-type">
                     <SelectValue />
@@ -151,7 +153,7 @@ export default function Excursions() {
               </div>
 
               <div>
-                <Label className="mb-3 block">Add-ons</Label>
+                <Label className="mb-3 block">{t('excursions.addons')}</Label>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <Checkbox
@@ -161,7 +163,7 @@ export default function Excursions() {
                       data-testid="checkbox-guide"
                     />
                     <label htmlFor="guide" className="text-sm cursor-pointer">
-                      Professional Guide (+30DT)
+                      {t('excursions.professionalGuide')} (+30DT)
                     </label>
                   </div>
                   <div className="flex items-center gap-2">
@@ -172,7 +174,7 @@ export default function Excursions() {
                       data-testid="checkbox-lunch"
                     />
                     <label htmlFor="lunch" className="text-sm cursor-pointer">
-                      Traditional Lunch (+25DT)
+                      {t('excursions.traditionalLunch')} (+25DT)
                     </label>
                   </div>
                   <div className="flex items-center gap-2">
@@ -183,7 +185,7 @@ export default function Excursions() {
                       data-testid="checkbox-airport"
                     />
                     <label htmlFor="airport" className="text-sm cursor-pointer">
-                      Airport Drop-off (+40DT)
+                      {t('excursions.airportDropoff')} (+40DT)
                     </label>
                   </div>
                 </div>
@@ -191,7 +193,7 @@ export default function Excursions() {
 
               <div className="border-t pt-4">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-lg font-semibold">Total Price:</span>
+                  <span className="text-lg font-semibold">{t('excursions.totalPrice')}</span>
                   <span className="text-3xl font-bold text-brand-600" data-testid="text-total-price">
                     {calculateTotal()}DT
                   </span>
@@ -216,7 +218,7 @@ export default function Excursions() {
                   data-testid="button-confirm-booking"
                   disabled={!date}
                 >
-                  Continue to Payment
+                  {t('booking.continue')}
                 </Button>
               </div>
             </div>

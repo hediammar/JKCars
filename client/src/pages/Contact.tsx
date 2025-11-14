@@ -5,8 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -14,7 +16,7 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Contact form submitted:', { name, email, message });
-    alert('Thank you for your message! We will get back to you soon.');
+    alert(t('contact.thankYouMessage'));
     setName('');
     setEmail('');
     setMessage('');
@@ -29,10 +31,10 @@ export default function Contact() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get in Touch
+            {t('contact.title')}
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            {t('contact.description')}
           </p>
         </motion.div>
 
@@ -43,40 +45,40 @@ export default function Contact() {
             transition={{ delay: 0.2 }}
           >
             <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+              <h2 className="text-2xl font-bold mb-6">{t('contact.sendMessage')}</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="name">Your Name</Label>
+                  <Label htmlFor="name">{t('contact.yourName')}</Label>
                   <Input
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Mohamed Salah"
+                    placeholder={t('contact.namePlaceholder')}
                     required
                     data-testid="input-contact-name"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">{t('contact.emailAddress')}</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="mohamed@gmail.com"
+                    placeholder={t('contact.emailPlaceholder')}
                     required
                     data-testid="input-contact-email"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message">{t('contact.message')}</Label>
                   <Textarea
                     id="message"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell us how we can help you..."
+                    placeholder={t('contact.messagePlaceholder')}
                     rows={6}
                     required
                     data-testid="textarea-contact-message"
@@ -84,7 +86,7 @@ export default function Contact() {
                 </div>
 
                 <Button type="submit" className="w-full" size="lg" data-testid="button-send-message">
-                  Send Message
+                  {t('contact.send')}
                 </Button>
               </form>
             </div>
@@ -97,7 +99,7 @@ export default function Contact() {
             className="space-y-6"
           >
             <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+              <h2 className="text-2xl font-bold mb-6">{t('contact.contactInfo')}</h2>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
@@ -105,8 +107,8 @@ export default function Contact() {
                     <MapPin className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 mb-1">Address</div>
-                    <div className="text-gray-600">Avenue Habib Bourguiba<br />Hammamet 8050, Tunisia</div>
+                    <div className="font-semibold text-gray-900 mb-1">{t('contact.address')}</div>
+                    <div className="text-gray-600 whitespace-pre-line">{t('contact.addressValue')}</div>
                   </div>
                 </div>
 
@@ -115,7 +117,7 @@ export default function Contact() {
                     <Phone className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 mb-1">Phone</div>
+                    <div className="font-semibold text-gray-900 mb-1">{t('contact.phone')}</div>
                     <div className="text-gray-600">+216 72 123 456</div>
                     <div className="text-gray-600">+216 98 765 432</div>
                   </div>
@@ -126,7 +128,7 @@ export default function Contact() {
                     <Mail className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 mb-1">Email</div>
+                    <div className="font-semibold text-gray-900 mb-1">{t('contact.email')}</div>
                     <div className="text-gray-600">info@jkcars.tn</div>
                     <div className="text-gray-600">support@jkcars.tn</div>
                   </div>
@@ -137,15 +139,15 @@ export default function Contact() {
                     <Clock className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 mb-1">Business Hours</div>
-                    <div className="text-gray-600">Monday - Saturday: 8:00 AM - 8:00 PM</div>
-                    <div className="text-gray-600">Sunday: 9:00 AM - 6:00 PM</div>
+                    <div className="font-semibold text-gray-900 mb-1">{t('contact.businessHours')}</div>
+                    <div className="text-gray-600">{t('contact.mondaySaturday')}</div>
+                    <div className="text-gray-600">{t('contact.sunday')}</div>
                   </div>
                 </div>
               </div>
 
               <div className="mt-8 pt-8 border-t border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-4">Follow Us</h3>
+                <h3 className="font-semibold text-gray-900 mb-4">{t('contact.followUs')}</h3>
                 <div className="flex gap-4">
                   <a
                     href="#"

@@ -5,10 +5,12 @@ import FeatureCard from '@/components/FeatureCard';
 import { Car as CarType } from '@shared/schema';
 import { Car, Shield, HeadphonesIcon, Award, MapPin, Clock } from 'lucide-react';
 import carsDataRaw from '@/data/cars.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const carsData = carsDataRaw as CarType[];
 
 export default function Home() {
+  const { t } = useLanguage();
   const featuredCars = carsData.slice(0, 3);
 
   return (
@@ -24,48 +26,48 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Why Choose JK Cars?
+              {t('home.whyChoose')}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Experience the best car rental service in Tunisia with our premium fleet and exceptional customer care
+              {t('home.whyChooseDesc')}
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FeatureCard
               icon={Car}
-              title="Premium Fleet"
-              description="Choose from our selection of premium vehicles, all less than 2 years old and meticulously maintained."
+              title={t('home.features.premiumFleet.title')}
+              description={t('home.features.premiumFleet.description')}
               index={0}
             />
             <FeatureCard
               icon={Award}
-              title="Best Rates"
-              description="Competitive pricing with no hidden fees. What you see is what you pay, guaranteed."
+              title={t('home.features.bestRates.title')}
+              description={t('home.features.bestRates.description')}
               index={1}
             />
             <FeatureCard
               icon={HeadphonesIcon}
-              title="24/7 Support"
-              description="Round-the-clock customer support across Tunisia. We're always here when you need us."
+              title={t('home.features.support.title')}
+              description={t('home.features.support.description')}
               index={2}
             />
             <FeatureCard
               icon={Shield}
-              title="Full Insurance"
-              description="Comprehensive insurance coverage included with every rental for your peace of mind."
+              title={t('home.features.insurance.title')}
+              description={t('home.features.insurance.description')}
               index={3}
             />
             <FeatureCard
               icon={MapPin}
-              title="Nationwide Coverage"
-              description="Pick up and drop off at any location across Tunisia, from Tunis to Djerba."
+              title={t('home.features.coverage.title')}
+              description={t('home.features.coverage.description')}
               index={4}
             />
             <FeatureCard
               icon={Clock}
-              title="Flexible Rentals"
-              description="Rent by the hour, day, week, or month. Flexible terms that adapt to your needs."
+              title={t('home.features.flexible.title')}
+              description={t('home.features.flexible.description')}
               index={5}
             />
           </div>
@@ -81,10 +83,10 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Featured Vehicles
+              {t('home.featuredVehicles')}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore our handpicked selection of premium cars
+              {t('home.featuredVehiclesDesc')}
             </p>
           </motion.div>
 

@@ -14,10 +14,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs, { Dayjs } from 'dayjs';
 import carsDataRaw from '@/data/cars.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const carsData = carsDataRaw as Car[];
 
 export default function CarDetails() {
+  const { t } = useLanguage();
   const [, params] = useRoute('/car/:id');
   const car = useMemo(() => carsData.find(c => c.id === params?.id), [params]);
   
@@ -73,9 +75,9 @@ export default function CarDetails() {
     return (
       <div className="min-h-screen pt-24 pb-16 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Car not found</h2>
+          <h2 className="text-2xl font-bold mb-4">{t('carDetails.notFound')}</h2>
           <Link href="/fleet">
-            <Button>Back to Fleet</Button>
+            <Button>{t('carDetails.backToFleet')}</Button>
           </Link>
         </div>
       </div>
@@ -88,7 +90,7 @@ export default function CarDetails() {
         <Link href="/fleet">
           <Button variant="ghost" className="mb-6" data-testid="button-back-to-fleet">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Fleet
+            {t('carDetails.backToFleet')}
           </Button>
         </Link>
 
@@ -153,15 +155,15 @@ export default function CarDetails() {
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Specifications</h2>
+              <h2 className="text-2xl font-bold mb-6">{t('carDetails.specifications')}</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-brand-50 rounded-lg">
                     <Users className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Passengers</div>
-                    <div className="font-semibold">{car.seats} Seats</div>
+                    <div className="text-sm text-gray-500">{t('carDetails.passengers')}</div>
+                    <div className="font-semibold">{car.seats} {t('carDetails.seats')}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -169,7 +171,7 @@ export default function CarDetails() {
                     <Settings className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Transmission</div>
+                    <div className="text-sm text-gray-500">{t('carDetails.transmission')}</div>
                     <div className="font-semibold">{car.transmission}</div>
                   </div>
                 </div>
@@ -178,7 +180,7 @@ export default function CarDetails() {
                     <Fuel className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Fuel Type</div>
+                    <div className="text-sm text-gray-500">{t('carDetails.fuelType')}</div>
                     <div className="font-semibold">{car.fuel}</div>
                   </div>
                 </div>
@@ -187,8 +189,8 @@ export default function CarDetails() {
                     <Luggage className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Luggage</div>
-                    <div className="font-semibold">{car.luggage} Bags</div>
+                    <div className="text-sm text-gray-500">{t('carDetails.luggage')}</div>
+                    <div className="font-semibold">{car.luggage} {t('carDetails.bags')}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -196,7 +198,7 @@ export default function CarDetails() {
                     <Gauge className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Horsepower</div>
+                    <div className="text-sm text-gray-500">{t('carDetails.horsepower')}</div>
                     <div className="font-semibold">{car.horsepower} HP</div>
                   </div>
                 </div>
@@ -205,7 +207,7 @@ export default function CarDetails() {
                     <Droplets className="w-6 h-6 text-brand-600" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500">Consumption</div>
+                    <div className="text-sm text-gray-500">{t('carDetails.consumption')}</div>
                     <div className="font-semibold">{car.consumption}</div>
                   </div>
                 </div>
@@ -213,10 +215,10 @@ export default function CarDetails() {
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Description</h2>
+              <h2 className="text-2xl font-bold mb-4">{t('carDetails.description')}</h2>
               <p className="text-gray-600 leading-relaxed mb-6">{car.description}</p>
               
-              <h3 className="text-xl font-semibold mb-3">Features</h3>
+              <h3 className="text-xl font-semibold mb-3">{t('carDetails.features')}</h3>
               <div className="flex flex-wrap gap-2">
                 {car.features.map((feature, index) => (
                   <Badge key={index} variant="secondary" className="px-3 py-1">
@@ -230,7 +232,7 @@ export default function CarDetails() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
               <div className="mb-6">
-                <div className="text-sm text-gray-500 mb-1">Price per day</div>
+                <div className="text-sm text-gray-500 mb-1">{t('carDetails.pricePerDay')}</div>
                 <div className="text-4xl font-bold text-brand-600">
                   {car.discount ? (
                     <>
@@ -247,7 +249,7 @@ export default function CarDetails() {
                 <div>
                   <Label className="mb-3 block">
                     <Calendar className="w-4 h-4 inline mr-2" />
-                    Pickup Date
+                    {t('carDetails.pickupDate')}
                   </Label>
                   <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-pickup-date">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -283,7 +285,7 @@ export default function CarDetails() {
                 <div>
                   <Label className="mb-3 block">
                     <Calendar className="w-4 h-4 inline mr-2" />
-                    Return Date
+                    {t('carDetails.returnDate')}
                   </Label>
                   <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-return-date">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -319,18 +321,18 @@ export default function CarDetails() {
                 <div>
                   <Label htmlFor="pickupLocation">
                     <MapPin className="w-4 h-4 inline mr-2" />
-                    Pickup Location
+                    {t('carDetails.pickupLocation')}
                   </Label>
                   <Select value={pickupLocation} onValueChange={setPickupLocation}>
                     <SelectTrigger data-testid="select-pickup-location">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="hammamet">Hammamet</SelectItem>
-                      <SelectItem value="tunis">Tunis</SelectItem>
-                      <SelectItem value="sousse">Sousse</SelectItem>
-                      <SelectItem value="monastir">Monastir</SelectItem>
-                      <SelectItem value="sfax">Sfax</SelectItem>
+                      <SelectItem value="hammamet">{t('carDetails.locationHammamet')}</SelectItem>
+                      <SelectItem value="tunis">{t('carDetails.locationTunis')}</SelectItem>
+                      <SelectItem value="sousse">{t('carDetails.locationSousse')}</SelectItem>
+                      <SelectItem value="monastir">{t('carDetails.locationMonastir')}</SelectItem>
+                      <SelectItem value="sfax">{t('carDetails.locationSfax')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -338,25 +340,25 @@ export default function CarDetails() {
                 <div>
                   <Label htmlFor="returnLocation">
                     <MapPin className="w-4 h-4 inline mr-2" />
-                    Return Location
+                    {t('carDetails.returnLocation')}
                   </Label>
                   <Select value={returnLocation} onValueChange={setReturnLocation}>
                     <SelectTrigger data-testid="select-return-location">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="hammamet">Hammamet</SelectItem>
-                      <SelectItem value="tunis">Tunis</SelectItem>
-                      <SelectItem value="sousse">Sousse</SelectItem>
-                      <SelectItem value="monastir">Monastir</SelectItem>
-                      <SelectItem value="sfax">Sfax</SelectItem>
+                      <SelectItem value="hammamet">{t('carDetails.locationHammamet')}</SelectItem>
+                      <SelectItem value="tunis">{t('carDetails.locationTunis')}</SelectItem>
+                      <SelectItem value="sousse">{t('carDetails.locationSousse')}</SelectItem>
+                      <SelectItem value="monastir">{t('carDetails.locationMonastir')}</SelectItem>
+                      <SelectItem value="sfax">{t('carDetails.locationSfax')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div className="mb-6">
-                <Label className="mb-3 block">Add-ons</Label>
+                <Label className="mb-3 block">{t('carDetails.addons')}</Label>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -366,9 +368,9 @@ export default function CarDetails() {
                         onCheckedChange={() => handleAddOnToggle('gps')}
                         data-testid="checkbox-gps"
                       />
-                      <label htmlFor="gps" className="text-sm cursor-pointer">GPS Navigation</label>
+                      <label htmlFor="gps" className="text-sm cursor-pointer">{t('carDetails.gpsNavigation')}</label>
                     </div>
-                    <span className="text-sm text-gray-600">+5DT/day</span>
+                    <span className="text-sm text-gray-600">+5DT/{t('common.perDay')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -378,9 +380,9 @@ export default function CarDetails() {
                         onCheckedChange={() => handleAddOnToggle('babySeat')}
                         data-testid="checkbox-baby-seat"
                       />
-                      <label htmlFor="babySeat" className="text-sm cursor-pointer">Baby Seat</label>
+                      <label htmlFor="babySeat" className="text-sm cursor-pointer">{t('carDetails.babySeat')}</label>
                     </div>
-                    <span className="text-sm text-gray-600">+8DT/day</span>
+                    <span className="text-sm text-gray-600">+8DT/{t('common.perDay')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -390,9 +392,9 @@ export default function CarDetails() {
                         onCheckedChange={() => handleAddOnToggle('insurance')}
                         data-testid="checkbox-insurance"
                       />
-                      <label htmlFor="insurance" className="text-sm cursor-pointer">Extra Insurance</label>
+                      <label htmlFor="insurance" className="text-sm cursor-pointer">{t('carDetails.extraInsurance')}</label>
                     </div>
-                    <span className="text-sm text-gray-600">+15DT/day</span>
+                    <span className="text-sm text-gray-600">+15DT/{t('common.perDay')}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -402,9 +404,9 @@ export default function CarDetails() {
                         onCheckedChange={() => handleAddOnToggle('driver')}
                         data-testid="checkbox-driver"
                       />
-                      <label htmlFor="driver" className="text-sm cursor-pointer">Driver Service</label>
+                      <label htmlFor="driver" className="text-sm cursor-pointer">{t('carDetails.driverService')}</label>
                     </div>
-                    <span className="text-sm text-gray-600">+40DT/day</span>
+                    <span className="text-sm text-gray-600">+40DT/{t('common.perDay')}</span>
                   </div>
                 </div>
               </div>
@@ -412,7 +414,7 @@ export default function CarDetails() {
               {pickupDate && returnDate && (
                 <div className="bg-brand-50 rounded-lg p-4 mb-6">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold">Total Price:</span>
+                    <span className="font-semibold">{t('carDetails.totalPrice')}</span>
                     <span className="text-2xl font-bold text-brand-600" data-testid="text-car-total-price">
                       {calculateTotal()}DT
                     </span>
@@ -442,7 +444,7 @@ export default function CarDetails() {
                   window.location.href = `/booking?${params.toString()}`;
                 }}
               >
-                Book Now
+                {t('carDetails.bookNow')}
               </Button>
             </div>
           </div>

@@ -6,10 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import carsDataRaw from '@/data/cars.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const carsData = carsDataRaw as Car[];
 
 export default function Fleet() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [brandFilter, setBrandFilter] = useState('all');
   const [transmissionFilter, setTransmissionFilter] = useState('all');
@@ -56,24 +58,24 @@ export default function Fleet() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our Premium Fleet
+            {t('fleet.title')}
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose from our extensive collection of premium vehicles
+            {t('fleet.description')}
           </p>
         </motion.div>
 
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
             <SlidersHorizontal className="w-5 h-5 text-brand-600" />
-            <h3 className="text-lg font-semibold">Filters & Search</h3>
+            <h3 className="text-lg font-semibold">{t('fleet.filters')}</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
-                placeholder="Search cars..."
+                placeholder={t('fleet.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -83,12 +85,12 @@ export default function Fleet() {
 
             <Select value={brandFilter} onValueChange={setBrandFilter}>
               <SelectTrigger data-testid="select-brand-filter">
-                <SelectValue placeholder="Brand" />
+                <SelectValue placeholder={t('fleet.vehicleType')} />
               </SelectTrigger>
               <SelectContent>
                 {brands.map(brand => (
                   <SelectItem key={brand} value={brand}>
-                    {brand === 'all' ? 'All Brands' : brand}
+                    {brand === 'all' ? t('fleet.allBrands') : brand}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -96,10 +98,10 @@ export default function Fleet() {
 
             <Select value={transmissionFilter} onValueChange={setTransmissionFilter}>
               <SelectTrigger data-testid="select-transmission-filter">
-                <SelectValue placeholder="Transmission" />
+                <SelectValue placeholder={t('fleet.transmission')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="all">{t('common.select')}</SelectItem>
                 <SelectItem value="Automatic">Automatic</SelectItem>
                 <SelectItem value="Manual">Manual</SelectItem>
               </SelectContent>
@@ -107,10 +109,10 @@ export default function Fleet() {
 
             <Select value={fuelFilter} onValueChange={setFuelFilter}>
               <SelectTrigger data-testid="select-fuel-filter">
-                <SelectValue placeholder="Fuel Type" />
+                <SelectValue placeholder={t('fleet.fuel')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Fuels</SelectItem>
+                <SelectItem value="all">{t('common.select')}</SelectItem>
                 <SelectItem value="Petrol">Petrol</SelectItem>
                 <SelectItem value="Diesel">Diesel</SelectItem>
                 <SelectItem value="Hybrid">Hybrid</SelectItem>
@@ -120,19 +122,19 @@ export default function Fleet() {
 
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger data-testid="select-sort">
-                <SelectValue placeholder="Sort by" />
+                <SelectValue placeholder={t('fleet.sortBy')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="name">Name: A to Z</SelectItem>
+                <SelectItem value="price-low">{t('fleet.priceLowHigh')}</SelectItem>
+                <SelectItem value="price-high">{t('fleet.priceHighLow')}</SelectItem>
+                <SelectItem value="name">{t('fleet.nameAZ')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         <div className="mb-4 text-gray-600">
-          <span className="font-medium">{filteredAndSortedCars.length}</span> vehicles available
+          <span className="font-medium">{filteredAndSortedCars.length}</span> {t('fleet.vehiclesAvailable')}
         </div>
 
         {filteredAndSortedCars.length > 0 ? (
@@ -143,7 +145,7 @@ export default function Fleet() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <p className="text-gray-500 text-lg">No vehicles match your criteria. Try adjusting your filters.</p>
+            <p className="text-gray-500 text-lg">{t('fleet.noResults')}</p>
           </div>
         )}
       </div>

@@ -14,10 +14,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Dayjs } from 'dayjs';
 import excursionsDataRaw from '@/data/excursions.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const excursionsData = excursionsDataRaw as Excursion[];
 
 export default function ExcursionDetails() {
+  const { t } = useLanguage();
   const [, params] = useRoute('/excursion/:id');
   const excursion = useMemo(() => excursionsData.find(e => e.id === params?.id), [params]);
   
@@ -76,9 +78,9 @@ export default function ExcursionDetails() {
     return (
       <div className="min-h-screen pt-24 pb-16 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Excursion not found</h2>
+          <h2 className="text-2xl font-bold mb-4">{t('excursionDetails.notFound')}</h2>
           <Link href="/excursions">
-            <Button>Back to Excursions</Button>
+            <Button>{t('excursionDetails.backToExcursions')}</Button>
           </Link>
         </div>
       </div>
@@ -91,7 +93,7 @@ export default function ExcursionDetails() {
         <Link href="/excursions">
           <Button variant="ghost" className="mb-6" data-testid="button-back-to-excursions">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Excursions
+            {t('excursionDetails.backToExcursions')}
           </Button>
         </Link>
 
@@ -123,7 +125,7 @@ export default function ExcursionDetails() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Users className="w-5 h-5" />
-                      <span>Group Tour</span>
+                      <span>{t('excursionDetails.groupTour')}</span>
                     </div>
                   </div>
                 </div>
@@ -131,10 +133,10 @@ export default function ExcursionDetails() {
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">About This Excursion</h2>
+              <h2 className="text-2xl font-bold mb-4">{t('excursionDetails.aboutThisExcursion')}</h2>
               <p className="text-gray-600 leading-relaxed mb-6">{excursion.description}</p>
               
-              <h3 className="text-xl font-semibold mb-4">Highlights</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('excursionDetails.highlights')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                 {excursion.highlights.map((highlight, index) => (
                   <div key={index} className="flex items-start gap-3">
@@ -144,7 +146,7 @@ export default function ExcursionDetails() {
                 ))}
               </div>
 
-              <h3 className="text-xl font-semibold mb-4">What's Included</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('excursionDetails.whatsIncluded')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {excursion.included.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
@@ -159,7 +161,7 @@ export default function ExcursionDetails() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
               <div className="mb-6">
-                <div className="text-sm text-gray-500 mb-1">Price per person</div>
+                <div className="text-sm text-gray-500 mb-1">{t('excursionDetails.pricePerPerson')}</div>
                 <div className="text-4xl font-bold text-brand-600">
                   {excursion.price}DT
                 </div>
@@ -169,7 +171,7 @@ export default function ExcursionDetails() {
                 <div>
                   <Label className="mb-3 block">
                     <Calendar className="w-4 h-4 inline mr-2" />
-                    Select Date
+                    {t('excursions.selectDate')}
                   </Label>
                   <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-excursion-date">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -204,7 +206,7 @@ export default function ExcursionDetails() {
                 <div>
                   <Label htmlFor="persons">
                     <Users className="w-4 h-4 inline mr-2" />
-                    Number of Persons
+                    {t('excursions.numberOfPersons')}
                   </Label>
                   <Input
                     id="persons"
@@ -218,21 +220,21 @@ export default function ExcursionDetails() {
               </div>
 
               <div className="mb-6">
-                <Label htmlFor="carType">Vehicle Type</Label>
+                <Label htmlFor="carType">{t('excursions.vehicleType')}</Label>
                 <Select value={carType} onValueChange={setCarType}>
                   <SelectTrigger data-testid="select-car-type">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="sedan">Sedan (+0DT)</SelectItem>
-                    <SelectItem value="suv">SUV (+20DT)</SelectItem>
-                    <SelectItem value="minivan">Minivan (+35DT)</SelectItem>
+                    <SelectItem value="sedan">{t('excursionDetails.vehicleSedan')}</SelectItem>
+                    <SelectItem value="suv">{t('excursionDetails.vehicleSUV')}</SelectItem>
+                    <SelectItem value="minivan">{t('excursionDetails.vehicleMinivan')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="mb-6">
-                <Label className="mb-3 block">Add-ons</Label>
+                <Label className="mb-3 block">{t('excursions.addons')}</Label>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -242,7 +244,7 @@ export default function ExcursionDetails() {
                         onCheckedChange={() => handleAddOnToggle('guide')}
                         data-testid="checkbox-guide"
                       />
-                      <label htmlFor="guide" className="text-sm cursor-pointer">Professional Guide</label>
+                      <label htmlFor="guide" className="text-sm cursor-pointer">{t('excursions.professionalGuide')}</label>
                     </div>
                     <span className="text-sm text-gray-600">+30DT</span>
                   </div>
@@ -254,7 +256,7 @@ export default function ExcursionDetails() {
                         onCheckedChange={() => handleAddOnToggle('lunch')}
                         data-testid="checkbox-lunch"
                       />
-                      <label htmlFor="lunch" className="text-sm cursor-pointer">Traditional Lunch</label>
+                      <label htmlFor="lunch" className="text-sm cursor-pointer">{t('excursions.traditionalLunch')}</label>
                     </div>
                     <span className="text-sm text-gray-600">+25DT</span>
                   </div>
@@ -266,7 +268,7 @@ export default function ExcursionDetails() {
                         onCheckedChange={() => handleAddOnToggle('airport')}
                         data-testid="checkbox-airport"
                       />
-                      <label htmlFor="airport" className="text-sm cursor-pointer">Airport Drop-off</label>
+                      <label htmlFor="airport" className="text-sm cursor-pointer">{t('excursions.airportDropoff')}</label>
                     </div>
                     <span className="text-sm text-gray-600">+40DT</span>
                   </div>
@@ -276,7 +278,7 @@ export default function ExcursionDetails() {
               {date && (
                 <div className="bg-brand-50 rounded-lg p-4 mb-6">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold">Total Price:</span>
+                    <span className="font-semibold">{t('excursions.totalPrice')}</span>
                     <span className="text-2xl font-bold text-brand-600" data-testid="text-total-price">
                       {calculateTotal()}DT
                     </span>
@@ -305,7 +307,7 @@ export default function ExcursionDetails() {
                 disabled={!date}
                 data-testid="button-confirm-booking"
               >
-                Continue to Payment
+                {t('booking.continue')}
               </Button>
             </div>
           </div>

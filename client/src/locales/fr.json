@@ -1,0 +1,257 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "fleet": "Flotte",
+    "excursions": "Excursions",
+    "airportTransfers": "Transferts Aéroport",
+    "about": "À propos",
+    "contact": "Contact",
+    "bookNow": "Réserver"
+  },
+  "hero": {
+    "title": "Conduisez l'Avenir de la Tunisie",
+    "subtitle": "Louez des véhicules premium ou réservez votre prochaine excursion depuis Hammamet vers n'importe où en Tunisie",
+    "pickupReturn": "Prise en charge et retour",
+    "pickupDate": "Date de prise en charge",
+    "returnDate": "Date de retour",
+    "pickupTime": "Heure de prise en charge",
+    "returnTime": "Heure de retour",
+    "search": "Rechercher",
+    "differentReturn": "+ Lieu de retour différent",
+    "stats": {
+      "premiumCars": "Voitures Premium",
+      "destinations": "Destinations",
+      "happyClients": "Clients Satisfaits"
+    }
+  },
+  "home": {
+    "whyChoose": "Pourquoi Choisir JK Cars?",
+    "whyChooseDesc": "Découvrez le meilleur service de location de voitures en Tunisie avec notre flotte premium et notre service client exceptionnel",
+    "featuredVehicles": "Véhicules en Vedette",
+    "featuredVehiclesDesc": "Explorez notre sélection de voitures premium",
+    "features": {
+      "premiumFleet": {
+        "title": "Flotte Premium",
+        "description": "Choisissez parmi notre sélection de véhicules premium, tous âgés de moins de 2 ans et méticuleusement entretenus."
+      },
+      "bestRates": {
+        "title": "Meilleurs Tarifs",
+        "description": "Tarifs compétitifs sans frais cachés. Ce que vous voyez est ce que vous payez, garanti."
+      },
+      "support": {
+        "title": "Support 24/7",
+        "description": "Support client disponible 24h/24 et 7j/7 en Tunisie. Nous sommes toujours là quand vous avez besoin de nous."
+      },
+      "insurance": {
+        "title": "Assurance Complète",
+        "description": "Couverture d'assurance complète incluse avec chaque location pour votre tranquillité d'esprit."
+      },
+      "coverage": {
+        "title": "Couverture Nationale",
+        "description": "Prise en charge et retour à n'importe quel endroit en Tunisie, de Tunis à Djerba."
+      },
+      "flexible": {
+        "title": "Locations Flexibles",
+        "description": "Louez à l'heure, à la journée, à la semaine ou au mois. Conditions flexibles qui s'adaptent à vos besoins."
+      }
+    }
+  },
+  "fleet": {
+    "title": "Notre Flotte Premium",
+    "description": "Choisissez parmi notre vaste collection de véhicules premium",
+    "filters": "Filtres et Recherche",
+    "sortBy": "Trier par",
+    "priceLowHigh": "Prix: Croissant",
+    "priceHighLow": "Prix: Décroissant",
+    "nameAZ": "Nom: A à Z",
+    "vehicleType": "Type de véhicule",
+    "transmission": "Transmission",
+    "fuel": "Carburant",
+    "search": "Rechercher des véhicules...",
+    "vehiclesAvailable": "véhicules disponibles",
+    "allBrands": "Toutes les Marques",
+    "noResults": "Aucun véhicule trouvé correspondant à vos critères"
+  },
+  "carDetails": {
+    "backToFleet": "Retour à la Flotte",
+    "specifications": "Spécifications",
+    "description": "Description",
+    "features": "Caractéristiques",
+    "pricePerDay": "Prix par jour",
+    "bookThisCar": "Réserver Cette Voiture",
+    "pickupDate": "Date de prise en charge",
+    "returnDate": "Date de retour",
+    "pickupLocation": "Lieu de Prise en Charge",
+    "returnLocation": "Lieu de Retour",
+    "totalPrice": "Prix Total:",
+    "passengers": "Passagers",
+    "seats": "Places",
+    "transmission": "Transmission",
+    "fuelType": "Type de carburant",
+    "luggage": "Bagages",
+    "bags": "Sacs",
+    "horsepower": "Puissance",
+    "consumption": "Consommation",
+    "notFound": "Voiture introuvable",
+    "addons": "Options",
+    "gpsNavigation": "Navigation GPS",
+    "babySeat": "Siège Bébé",
+    "extraInsurance": "Assurance Supplémentaire",
+    "driverService": "Service de Chauffeur",
+    "bookNow": "Réserver Maintenant",
+    "locationHammamet": "Hammamet",
+    "locationTunis": "Tunis",
+    "locationSousse": "Sousse",
+    "locationMonastir": "Monastir",
+    "locationSfax": "Sfax"
+  },
+  "excursions": {
+    "title": "Découvrez la Tunisie",
+    "description": "Explorez le riche patrimoine et les paysages époustouflants de la Tunisie avec nos excursions organisées",
+    "bookExcursion": "Réserver Votre Excursion",
+    "selectDate": "Sélectionner la Date",
+    "numberOfPersons": "Nombre de Personnes",
+    "vehicleType": "Type de Véhicule",
+    "addons": "Options",
+    "professionalGuide": "Guide Professionnel",
+    "traditionalLunch": "Déjeuner Traditionnel",
+    "airportDropoff": "Dépose à l'Aéroport",
+    "totalPrice": "Prix Total:",
+    "perPerson": "par personne",
+    "highlights": "Points Forts:",
+    "bookNow": "Réserver"
+  },
+  "excursionDetails": {
+    "backToExcursions": "Retour aux Excursions",
+    "aboutThisExcursion": "À Propos de Cette Excursion",
+    "highlights": "Points Forts",
+    "whatsIncluded": "Ce Qui Est Inclus",
+    "pricePerPerson": "Prix par personne",
+    "notFound": "Excursion introuvable",
+    "groupTour": "Visite de Groupe",
+    "vehicleSedan": "Berline (+0DT)",
+    "vehicleSUV": "SUV (+20DT)",
+    "vehicleMinivan": "Minibus (+35DT)"
+  },
+  "airportTransfers": {
+    "title": "Transferts Aéroport",
+    "description": "Services de prise en charge et de dépose à l'aéroport fiables et confortables dans toute la Tunisie",
+    "airport": "Aéroport",
+    "pickupLocation": "Lieu de Prise en Charge/Dépose",
+    "date": "Date",
+    "time": "Heure",
+    "passengers": "Passagers",
+    "vehicle": "Véhicule",
+    "totalPrice": "Prix Total:",
+    "includesFees": "Inclut tous les frais et taxes",
+    "bookTransfer": "Réserver le Transfert",
+    "availableAnytime": "Disponible 24/7",
+    "pickupGuarantee": "Garantie de Prise en Charge",
+    "onTimeService": "Service Ponctuel"
+  },
+  "about": {
+    "title": "À Propos de JK Cars",
+    "subtitle": "Conduire l'innovation dans la location de voitures et le tourisme en Tunisie",
+    "ourStory": "Notre Histoire",
+    "storyParagraph1": "Fondée à Hammamet, JK Cars est devenue le premier service de location de voitures et d'excursions en Tunisie. Ce qui a commencé comme une petite entreprise familiale avec seulement trois véhicules s'est transformé en une solution de mobilité complète servant des milliers de clients satisfaits à travers le pays.",
+    "storyParagraph2": "Nous comprenons que l'exploration de la Tunisie nécessite des transports fiables et des conseils d'experts. C'est pourquoi nous avons construit une entreprise qui combine une technologie de pointe avec l'hospitalité tunisienne traditionnelle, offrant à la fois des véhicules modernes et des expériences culturelles authentiques.",
+    "storyParagraph3": "Notre mission est simple: fournir un service transparent, abordable et exceptionnel qui rend votre voyage à travers la Tunisie inoubliable. De la côte méditerranéenne au désert du Sahara, nous sommes avec vous à chaque kilomètre du chemin.",
+    "stats": {
+      "yearsExperience": "Années d'Expérience",
+      "premiumVehicles": "Véhicules Premium",
+      "happyClients": "Clients Satisfaits",
+      "destinations": "Destinations"
+    },
+    "ourValues": "Nos Valeurs",
+    "valuesDescription": "Les principes qui guident tout ce que nous faisons",
+    "values": {
+      "trustSafety": {
+        "title": "Confiance et Sécurité",
+        "description": "Votre sécurité est notre priorité absolue. Tous les véhicules subissent des contrôles de maintenance rigoureux."
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "Nous visons l'excellence dans tous les aspects de notre prestation de service."
+      },
+      "customerFirst": {
+        "title": "Le Client d'Abord",
+        "description": "Votre satisfaction guide tout ce que nous faisons. Nous faisons des efforts supplémentaires pour vous."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Adopter la technologie pour offrir des expériences de réservation et de location sans faille."
+      }
+    },
+    "nationwideCoverage": "Couverture Nationale",
+    "coverageDesc": "Nous opérons dans toute la Tunisie, desservant toutes les grandes villes et destinations touristiques"
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "description": "Des questions? Nous serions ravis de vous entendre. Envoyez-nous un message et nous répondrons dès que possible.",
+    "sendMessage": "Envoyez-nous un Message",
+    "contactInfo": "Informations de Contact",
+    "address": "Adresse",
+    "addressValue": "Avenue Habib Bourguiba\nHammamet 8050, Tunisie",
+    "phone": "Téléphone",
+    "email": "Email",
+    "businessHours": "Heures d'Ouverture",
+    "followUs": "Suivez-Nous",
+    "yourName": "Votre Nom",
+    "namePlaceholder": "Mohamed Salah",
+    "emailAddress": "Adresse Email",
+    "emailPlaceholder": "mohamed@gmail.com",
+    "message": "Message",
+    "messagePlaceholder": "Dites-nous comment nous pouvons vous aider...",
+    "send": "Envoyer le Message",
+    "thankYouMessage": "Merci pour votre message! Nous vous répondrons bientôt.",
+    "mondaySaturday": "Lundi - Samedi: 8h00 - 20h00",
+    "sunday": "Dimanche: 9h00 - 18h00"
+  },
+  "booking": {
+    "completeBooking": "Finaliser Votre Réservation",
+    "bookingSummary": "Résumé de la Réservation",
+    "yourDetails": "Vos Coordonnées",
+    "payment": "Paiement",
+    "confirmation": "Confirmation",
+    "pickupLocation": "Lieu de Prise en Charge",
+    "returnLocation": "Lieu de Retour",
+    "rentalPeriod": "Période de Location",
+    "days": "jours",
+    "day": "jour",
+    "total": "Total",
+    "continue": "Continuer vers le Paiement",
+    "fullName": "Nom Complet",
+    "email": "Email",
+    "phone": "Numéro de Téléphone",
+    "paymentMethod": "Méthode de Paiement",
+    "payAtPickup": "Payer à la Prise en Charge",
+    "payByCard": "Payer par Carte",
+    "cardNumber": "Numéro de Carte",
+    "expiryDate": "Date d'Expiration",
+    "cvv": "CVV",
+    "completeBooking": "Finaliser la Réservation",
+    "bookingConfirmed": "Réservation Confirmée!",
+    "bookingConfirmedDesc": "Votre réservation a été complétée avec succès",
+    "bookingId": "ID de Réservation",
+    "paymentPaidByCard": "Paiement: Payé par Carte",
+    "paymentPayAtPickup": "Paiement: À payer à la prise en charge"
+  },
+  "common": {
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "viewDetails": "Voir les Détails",
+    "book": "Réserver",
+    "price": "Prix",
+    "perDay": "par jour",
+    "perPerson": "par personne",
+    "select": "Sélectionner",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès"
+  }
+}
+

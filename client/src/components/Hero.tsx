@@ -10,6 +10,7 @@ import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { TimePicker, type TimePickerValue } from 'react-accessible-time-picker';
 import { cn } from '@/lib/utils';
 import locationsData from '@/data/locations.json';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Location {
   id: string;
@@ -22,6 +23,7 @@ const locations = locationsData as Location[];
 
 export default function Hero() {
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
   const [pickupLocation, setPickupLocation] = useState('');
   const [returnLocation, setReturnLocation] = useState('');
   const [differentReturn, setDifferentReturn] = useState(false);
@@ -206,7 +208,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Drive the Future of Tunisia
+            {t('hero.title')}
           </motion.h1>
 
           <motion.p
@@ -215,7 +217,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Rent premium vehicles or book your next excursion from Hammamet to anywhere in Tunisia
+            {t('hero.subtitle')}
           </motion.p>
         </motion.div>
 
@@ -231,7 +233,7 @@ export default function Hero() {
               {/* Pickup & Return Location */}
               <div>
                 <label className="text-sm font-semibold text-gray-700 mb-2 block">
-                  Pickup & Return
+                  {t('hero.pickupReturn')}
                 </label>
                 <div className="relative" ref={pickupContainerRef}>
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 z-10" />
@@ -296,7 +298,7 @@ export default function Hero() {
                     onClick={() => setDifferentReturn(true)}
                     className="mt-2 text-sm text-brand-600 hover:text-brand-700 font-medium"
                   >
-                    + Different return location
+                    {t('hero.differentReturn')}
                   </button>
                 )}
                 {differentReturn && (
@@ -375,7 +377,7 @@ export default function Hero() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-semibold text-gray-700 mb-2 block">
-                    Pickup Date
+                    {t('hero.pickupDate')}
                   </label>
                   <div className="flex gap-2">
                     <Popover>
@@ -413,7 +415,7 @@ export default function Hero() {
 
                 <div>
                   <label className="text-sm font-semibold text-gray-700 mb-2 block">
-                    Return Date
+                    {t('hero.returnDate')}
                   </label>
                   <div className="flex gap-2">
                     <Popover>
@@ -459,7 +461,7 @@ export default function Hero() {
                 className="w-full h-14 text-lg font-semibold shadow-lg"
                 disabled={!pickupLocation || !pickupDate || !returnDate}
               >
-                Show Cars
+                {t('common.search')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
@@ -474,15 +476,15 @@ export default function Hero() {
         >
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-300">10+</div>
-            <div className="text-sm text-brand-100 mt-1">Premium Cars</div>
+            <div className="text-sm text-brand-100 mt-1">{t('hero.stats.premiumCars')}</div>
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-300">20+</div>
-            <div className="text-sm text-brand-100 mt-1">Destinations</div>
+            <div className="text-sm text-brand-100 mt-1">{t('hero.stats.destinations')}</div>
           </div>
           <div className="text-center">
             <div className="text-4xl font-bold text-brand-300">500+</div>
-            <div className="text-sm text-brand-100 mt-1">Happy Clients</div>
+            <div className="text-sm text-brand-100 mt-1">{t('hero.stats.happyClients')}</div>
           </div>
         </motion.div>
       </div>

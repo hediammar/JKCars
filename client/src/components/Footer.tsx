@@ -27,11 +27,11 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-brand-400">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/fleet"><a className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-fleet">Our Fleet</a></Link></li>
-              <li><Link href="/excursions"><a className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-excursions">Excursions</a></Link></li>
-              <li><Link href="/airport-transfers"><a className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-airport">Airport Transfers</a></Link></li>
-              <li><Link href="/about"><a className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-about">About Us</a></Link></li>
-              <li><Link href="/contact"><a className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</a></Link></li>
+              <li><Link href="/fleet" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-fleet">Our Fleet</Link></li>
+              <li><Link href="/excursions" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-excursions">Excursions</Link></li>
+              <li><Link href="/airport-transfers" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-airport">Airport Transfers</Link></li>
+              <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-about">About Us</Link></li>
+              <li><Link href="/contact" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</Link></li>
             </ul>
           </div>
 

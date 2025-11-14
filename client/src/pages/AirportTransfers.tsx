@@ -10,8 +10,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Dayjs } from 'dayjs';
 import { TimePicker, type TimePickerValue } from 'react-accessible-time-picker';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AirportTransfers() {
+  const { t } = useLanguage();
   const [airport, setAirport] = useState('');
   const [pickupLocation, setPickupLocation] = useState('hammamet');
   const [date, setDate] = useState<Dayjs | null>(null);
@@ -70,10 +72,10 @@ export default function AirportTransfers() {
             <Plane className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Airport Transfers
+            {t('airportTransfers.title')}
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Reliable and comfortable airport pickup and drop-off services across Tunisia
+            {t('airportTransfers.description')}
           </p>
         </motion.div>
 
@@ -83,11 +85,11 @@ export default function AirportTransfers() {
               <div>
                 <Label htmlFor="airport">
                   <Plane className="w-4 h-4 inline mr-2" />
-                  Airport
+                  {t('airportTransfers.airport')}
                 </Label>
                 <Select value={airport} onValueChange={setAirport}>
                   <SelectTrigger data-testid="select-airport">
-                    <SelectValue placeholder="Select airport" />
+                    <SelectValue placeholder={t('common.select')} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="tunis-carthage">Tunis-Carthage (80DT)</SelectItem>
@@ -100,7 +102,7 @@ export default function AirportTransfers() {
               <div>
                 <Label htmlFor="pickupLocation">
                   <MapPin className="w-4 h-4 inline mr-2" />
-                  Pickup/Drop-off Location
+                  {t('airportTransfers.pickupLocation')}
                 </Label>
                 <Select value={pickupLocation} onValueChange={setPickupLocation}>
                   <SelectTrigger data-testid="select-pickup-location-airport">
@@ -120,7 +122,7 @@ export default function AirportTransfers() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
-                <Label className="mb-3 block">Select Date</Label>
+                <Label className="mb-3 block">{t('airportTransfers.date')}</Label>
                 <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-transfer-date">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateCalendar
@@ -153,7 +155,7 @@ export default function AirportTransfers() {
 
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="time" className="mb-3 block">Time</Label>
+                  <Label htmlFor="time" className="mb-3 block">{t('airportTransfers.time')}</Label>
                   <div className="border-2 border-gray-200 rounded-lg p-3" data-testid="input-transfer-time">
                     <TimePicker
                       value={time || { hour: '12', minute: '00' }}
@@ -166,7 +168,7 @@ export default function AirportTransfers() {
                 <div>
                   <Label htmlFor="passengers">
                     <Users className="w-4 h-4 inline mr-2" />
-                    Number of Passengers
+                    {t('airportTransfers.passengers')}
                   </Label>
                   <Input
                     id="passengers"
@@ -182,7 +184,7 @@ export default function AirportTransfers() {
                 <div>
                   <Label htmlFor="carPreference">
                     <Car className="w-4 h-4 inline mr-2" />
-                    Vehicle Preference
+                    {t('airportTransfers.vehicle')}
                   </Label>
                   <Select value={carPreference} onValueChange={setCarPreference}>
                     <SelectTrigger data-testid="select-transfer-car">
@@ -206,12 +208,12 @@ export default function AirportTransfers() {
               className="bg-gradient-to-br from-brand-50 to-brand-100/50 rounded-xl p-6 mb-6"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-lg font-semibold text-gray-700">Total Price:</span>
+                <span className="text-lg font-semibold text-gray-700">{t('airportTransfers.totalPrice')}</span>
                 <span className="text-4xl font-bold text-brand-600" data-testid="text-transfer-total">
                   {calculateTotal()}DT
                 </span>
               </div>
-              <p className="text-sm text-gray-600">Includes all fees and taxes</p>
+              <p className="text-sm text-gray-600">{t('airportTransfers.includesFees')}</p>
             </motion.div>
           )}
 
@@ -222,22 +224,22 @@ export default function AirportTransfers() {
             size="lg"
             data-testid="button-book-transfer"
           >
-            Continue to Payment
+            {t('booking.continue')}
           </Button>
         </div>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-white rounded-xl shadow-lg">
             <div className="text-brand-600 text-3xl font-bold mb-2">24/7</div>
-            <div className="text-gray-600">Available Anytime</div>
+            <div className="text-gray-600">{t('airportTransfers.availableAnytime')}</div>
           </div>
           <div className="text-center p-6 bg-white rounded-xl shadow-lg">
             <div className="text-brand-600 text-3xl font-bold mb-2">15 min</div>
-            <div className="text-gray-600">Pickup Guarantee</div>
+            <div className="text-gray-600">{t('airportTransfers.pickupGuarantee')}</div>
           </div>
           <div className="text-center p-6 bg-white rounded-xl shadow-lg">
             <div className="text-brand-600 text-3xl font-bold mb-2">100%</div>
-            <div className="text-gray-600">On-Time Service</div>
+            <div className="text-gray-600">{t('airportTransfers.onTimeService')}</div>
           </div>
         </div>
       </div>

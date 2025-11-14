@@ -3,18 +3,21 @@ import { Link, useLocation } from 'wouter';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Navbar() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/fleet', label: 'Fleet' },
-    { path: '/excursions', label: 'Excursions' },
-    { path: '/airport-transfers', label: 'Airport Transfers' },
-    { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/', label: t('nav.home') },
+    { path: '/fleet', label: t('nav.fleet') },
+    { path: '/excursions', label: t('nav.excursions') },
+    { path: '/airport-transfers', label: t('nav.airportTransfers') },
+    { path: '/about', label: t('nav.about') },
+    { path: '/contact', label: t('nav.contact') },
   ];
 
   return (
@@ -52,7 +55,7 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:block">
-           
+            <LanguageSwitcher />
           </div>
 
           <button
@@ -95,9 +98,12 @@ export default function Navbar() {
                   className="w-full"
                   data-testid="button-mobile-book-now"
                 >
-                  Book Now
+                  {t('nav.bookNow')}
                 </Button>
               </Link>
+              <div className="pt-2">
+                <LanguageSwitcher />
+              </div>
             </div>
           </motion.div>
         )}

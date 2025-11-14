@@ -1,0 +1,257 @@
+{
+  "nav": {
+    "home": "Home",
+    "fleet": "Fleet",
+    "excursions": "Excursions",
+    "airportTransfers": "Airport Transfers",
+    "about": "About",
+    "contact": "Contact",
+    "bookNow": "Book Now"
+  },
+  "hero": {
+    "title": "Drive the Future of Tunisia",
+    "subtitle": "Rent premium vehicles or book your next excursion from Hammamet to anywhere in Tunisia",
+    "pickupReturn": "Pickup & Return",
+    "pickupDate": "Pickup Date",
+    "returnDate": "Return Date",
+    "pickupTime": "Pickup Time",
+    "returnTime": "Return Time",
+    "search": "Search",
+    "differentReturn": "+ Different return location",
+    "stats": {
+      "premiumCars": "Premium Cars",
+      "destinations": "Destinations",
+      "happyClients": "Happy Clients"
+    }
+  },
+  "home": {
+    "whyChoose": "Why Choose JK Cars?",
+    "whyChooseDesc": "Experience the best car rental service in Tunisia with our premium fleet and exceptional customer care",
+    "featuredVehicles": "Featured Vehicles",
+    "featuredVehiclesDesc": "Explore our handpicked selection of premium cars",
+    "features": {
+      "premiumFleet": {
+        "title": "Premium Fleet",
+        "description": "Choose from our selection of premium vehicles, all less than 2 years old and meticulously maintained."
+      },
+      "bestRates": {
+        "title": "Best Rates",
+        "description": "Competitive pricing with no hidden fees. What you see is what you pay, guaranteed."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Round-the-clock customer support across Tunisia. We're always here when you need us."
+      },
+      "insurance": {
+        "title": "Full Insurance",
+        "description": "Comprehensive insurance coverage included with every rental for your peace of mind."
+      },
+      "coverage": {
+        "title": "Nationwide Coverage",
+        "description": "Pick up and drop off at any location across Tunisia, from Tunis to Djerba."
+      },
+      "flexible": {
+        "title": "Flexible Rentals",
+        "description": "Rent by the hour, day, week, or month. Flexible terms that adapt to your needs."
+      }
+    }
+  },
+  "fleet": {
+    "title": "Our Premium Fleet",
+    "description": "Choose from our extensive collection of premium vehicles",
+    "filters": "Filters & Search",
+    "sortBy": "Sort by",
+    "priceLowHigh": "Price: Low to High",
+    "priceHighLow": "Price: High to Low",
+    "nameAZ": "Name: A to Z",
+    "vehicleType": "Vehicle type",
+    "transmission": "Transmission",
+    "fuel": "Fuel",
+    "search": "Search vehicles...",
+    "vehiclesAvailable": "vehicles available",
+    "allBrands": "All Brands",
+    "noResults": "No vehicles found matching your criteria"
+  },
+  "carDetails": {
+    "backToFleet": "Back to Fleet",
+    "specifications": "Specifications",
+    "description": "Description",
+    "features": "Features",
+    "pricePerDay": "Price per day",
+    "bookThisCar": "Book This Car",
+    "pickupDate": "Pickup Date",
+    "returnDate": "Return Date",
+    "pickupLocation": "Pickup Location",
+    "returnLocation": "Return Location",
+    "totalPrice": "Total Price:",
+    "passengers": "Passengers",
+    "seats": "Seats",
+    "transmission": "Transmission",
+    "fuelType": "Fuel Type",
+    "luggage": "Luggage",
+    "bags": "Bags",
+    "horsepower": "Horsepower",
+    "consumption": "Consumption",
+    "notFound": "Car not found",
+    "addons": "Add-ons",
+    "gpsNavigation": "GPS Navigation",
+    "babySeat": "Baby Seat",
+    "extraInsurance": "Extra Insurance",
+    "driverService": "Driver Service",
+    "bookNow": "Book Now",
+    "locationHammamet": "Hammamet",
+    "locationTunis": "Tunis",
+    "locationSousse": "Sousse",
+    "locationMonastir": "Monastir",
+    "locationSfax": "Sfax"
+  },
+  "excursions": {
+    "title": "Discover Tunisia",
+    "description": "Explore the rich heritage and stunning landscapes of Tunisia with our curated excursions",
+    "bookExcursion": "Book Your Excursion",
+    "selectDate": "Select Date",
+    "numberOfPersons": "Number of Persons",
+    "vehicleType": "Vehicle Type",
+    "addons": "Add-ons",
+    "professionalGuide": "Professional Guide",
+    "traditionalLunch": "Traditional Lunch",
+    "airportDropoff": "Airport Drop-off",
+    "totalPrice": "Total Price:",
+    "perPerson": "per person",
+    "highlights": "Highlights:",
+    "bookNow": "Book Now"
+  },
+  "excursionDetails": {
+    "backToExcursions": "Back to Excursions",
+    "aboutThisExcursion": "About This Excursion",
+    "highlights": "Highlights",
+    "whatsIncluded": "What's Included",
+    "pricePerPerson": "Price per person",
+    "notFound": "Excursion not found",
+    "groupTour": "Group Tour",
+    "vehicleSedan": "Sedan (+0DT)",
+    "vehicleSUV": "SUV (+20DT)",
+    "vehicleMinivan": "Minivan (+35DT)"
+  },
+  "airportTransfers": {
+    "title": "Airport Transfers",
+    "description": "Reliable and comfortable airport pickup and drop-off services across Tunisia",
+    "airport": "Airport",
+    "pickupLocation": "Pickup/Drop-off Location",
+    "date": "Date",
+    "time": "Time",
+    "passengers": "Passengers",
+    "vehicle": "Vehicle",
+    "totalPrice": "Total Price:",
+    "includesFees": "Includes all fees and taxes",
+    "bookTransfer": "Book Transfer",
+    "availableAnytime": "Available Anytime",
+    "pickupGuarantee": "Pickup Guarantee",
+    "onTimeService": "On-Time Service"
+  },
+  "about": {
+    "title": "About JK Cars",
+    "subtitle": "Driving innovation in car rental and tourism across Tunisia",
+    "ourStory": "Our Story",
+    "storyParagraph1": "Founded in Hammamet, JK Cars has grown to become Tunisia's premier car rental and excursion service. What started as a small family business with just three vehicles has evolved into a comprehensive mobility solution serving thousands of satisfied customers across the country.",
+    "storyParagraph2": "We understand that exploring Tunisia requires reliable transportation and expert guidance. That's why we've built a company that combines cutting-edge technology with traditional Tunisian hospitality, offering both modern vehicles and authentic cultural experiences.",
+    "storyParagraph3": "Our mission is simple: to provide transparent, affordable, and exceptional service that makes your journey through Tunisia unforgettable. From the Mediterranean coast to the Sahara Desert, we're with you every mile of the way.",
+    "stats": {
+      "yearsExperience": "Years Experience",
+      "premiumVehicles": "Premium Vehicles",
+      "happyClients": "Happy Clients",
+      "destinations": "Destinations"
+    },
+    "ourValues": "Our Values",
+    "valuesDescription": "The principles that guide everything we do",
+    "values": {
+      "trustSafety": {
+        "title": "Trust & Safety",
+        "description": "Your safety is our top priority. All vehicles undergo rigorous maintenance checks."
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "We strive for excellence in every aspect of our service delivery."
+      },
+      "customerFirst": {
+        "title": "Customer First",
+        "description": "Your satisfaction drives everything we do. We go the extra mile for you."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Embracing technology to provide seamless booking and rental experiences."
+      }
+    },
+    "nationwideCoverage": "Nationwide Coverage",
+    "coverageDesc": "We operate across Tunisia, serving all major cities and tourist destinations"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+    "sendMessage": "Send us a Message",
+    "contactInfo": "Contact Information",
+    "address": "Address",
+    "addressValue": "Avenue Habib Bourguiba\nHammamet 8050, Tunisia",
+    "phone": "Phone",
+    "email": "Email",
+    "businessHours": "Business Hours",
+    "followUs": "Follow Us",
+    "yourName": "Your Name",
+    "namePlaceholder": "Mohamed Salah",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "mohamed@gmail.com",
+    "message": "Message",
+    "messagePlaceholder": "Tell us how we can help you...",
+    "send": "Send Message",
+    "thankYouMessage": "Thank you for your message! We will get back to you soon.",
+    "mondaySaturday": "Monday - Saturday: 8:00 AM - 8:00 PM",
+    "sunday": "Sunday: 9:00 AM - 6:00 PM"
+  },
+  "booking": {
+    "completeBooking": "Complete Your Booking",
+    "bookingSummary": "Booking Summary",
+    "yourDetails": "Your Details",
+    "payment": "Payment",
+    "confirmation": "Confirmation",
+    "pickupLocation": "Pickup Location",
+    "returnLocation": "Return Location",
+    "rentalPeriod": "Rental Period",
+    "days": "days",
+    "day": "day",
+    "total": "Total",
+    "continue": "Continue to Payment",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "paymentMethod": "Payment Method",
+    "payAtPickup": "Pay at Pickup",
+    "payByCard": "Pay by Card",
+    "cardNumber": "Card Number",
+    "expiryDate": "Expiry Date",
+    "cvv": "CVV",
+    "completeBooking": "Complete Booking",
+    "bookingConfirmed": "Booking Confirmed!",
+    "bookingConfirmedDesc": "Your reservation has been successfully completed",
+    "bookingId": "Booking ID",
+    "paymentPaidByCard": "Payment: Paid by Card",
+    "paymentPayAtPickup": "Payment: To be paid at pickup"
+  },
+  "common": {
+    "search": "Search",
+    "filter": "Filter",
+    "viewDetails": "View Details",
+    "book": "Book",
+    "price": "Price",
+    "perDay": "per day",
+    "perPerson": "per person",
+    "select": "Select",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}
+
