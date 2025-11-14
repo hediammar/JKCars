@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1",
+    "destination": "Tunis Medina",
+    "title": "Tunis Medina & Carthage Heritage Tour",
+    "description": "Explore the historic heart of Tunisia with a guided tour through the UNESCO-listed Medina of Tunis and the ancient ruins of Carthage.",
+    "image": "/assets/excursion/tunis_medina.jpg?w=800&q=80",
+    "duration": "Full Day",
+    "price": 85,
+    "highlights": [
+      "UNESCO World Heritage Medina",
+      "Ancient Carthage Ruins",
+      "Bardo Museum Visit",
+      "Traditional Tunisian Lunch"
+    ],
+    "included": ["Professional Guide", "Transportation", "Lunch", "Museum Entrance"]
+  },
+  {
+    "id": "2",
+    "destination": "Sidi Bou Said",
+    "title": "Sidi Bou Said & La Marsa Coastal Experience",
+    "description": "Discover the charming blue and white village of Sidi Bou Said, perched above the Mediterranean, followed by leisure time at La Marsa beach.",
+    "image": "/assets/excursion/sidibousaid.webp?w=800&q=80",
+    "duration": "Half Day",
+    "price": 55,
+    "highlights": [
+      "Traditional Blue & White Architecture",
+      "Panoramic Sea Views",
+      "Café des Délices",
+      "Artisan Shops & Galleries"
+    ],
+    "included": ["Transportation", "Guide", "Coffee at Café des Délices"]
+  },
+  {
+    "id": "3",
+    "destination": "Sahara Desert",
+    "title": "Sahara Desert Adventure - 2 Days",
+    "description": "Experience the magic of the Sahara with camel rides, desert camping under the stars, and visits to ancient Berber villages.",
+    "image": "/assets/excursion/sahara.jpg?w=800&q=80",
+    "duration": "Multi-Day",
+    "price": 320,
+    "highlights": [
+      "Camel Trekking at Sunset",
+      "Overnight Desert Camp",
+      "Traditional Berber Dinner",
+      "Douz & Tozeur Oasis Visit"
+    ],
+    "included": ["4x4 Transportation", "Camping Equipment", "All Meals", "Professional Guide", "Camel Ride"]
+  },
+  {
+    "id": "4",
+    "destination": "Kairouan",
+    "title": "Kairouan & El Jem Colosseum",
+    "description": "Visit the holy city of Kairouan and the impressive Roman amphitheater of El Jem, both UNESCO World Heritage sites.",
+    "image": "/assets/excursion/eljem.jpg?w=800&q=80",
+    "duration": "Full Day",
+    "price": 95,
+    "highlights": [
+      "Great Mosque of Kairouan",
+      "El Jem Roman Amphitheater",
+      "Traditional Carpet Workshops",
+      "Local Market Experience"
+    ],
+    "included": ["Transportation", "Professional Guide", "Entrance Fees", "Traditional Lunch"]
+  },
+  {
+    "id": "5",
+    "destination": "Dougga",
+    "title": "Dougga Roman Ruins Exploration",
+    "description": "Step back in time at Tunisia's best-preserved Roman city, featuring temples, theaters, and stunning mosaics.",
+    "image": "/assets/excursion/dougga.avif?w=800&q=80",
+    "duration": "Half Day",
+    "price": 65,
+    "highlights": [
+      "Capitol Temple",
+      "Roman Theater",
+      "Ancient Mosaics",
+      "Panoramic Valley Views"
+    ],
+    "included": ["Transportation", "Archaeological Guide", "Entrance Ticket"]
+  },
+  {
+    "id": "6",
+    "destination": "Hammamet",
+    "title": "Hammamet Medina & Beach Relaxation",
+    "description": "Explore the local Medina of Hammamet in the morning, followed by relaxation at pristine Mediterranean beaches.",
+    "image": "/assets/excursion/hammamet.jpg?w=800&q=80",
+    "duration": "Half Day",
+    "price": 40,
+    "highlights": [
+      "Historic Hammamet Medina",
+      "Kasbah Fortress",
+      "Beach Time",
+      "Local Souk Shopping"
+    ],
+    "included": ["Local Guide", "Beach Access"]
+  }
+]

@@ -1,0 +1,55 @@
+import { Switch, Route } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Home from "@/pages/Home";
+import Fleet from "@/pages/Fleet";
+import CarDetails from "@/pages/CarDetails";
+import Excursions from "@/pages/Excursions";
+import ExcursionDetails from "@/pages/ExcursionDetails";
+import AirportTransfers from "@/pages/AirportTransfers";
+import About from "@/pages/About";
+import Contact from "@/pages/Contact";
+import Booking from "@/pages/Booking";
+import SearchResults from "@/pages/SearchResults";
+import NotFound from "@/pages/not-found";
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/fleet" component={Fleet} />
+      <Route path="/car/:id" component={CarDetails} />
+      <Route path="/excursions" component={Excursions} />
+      <Route path="/excursion/:id" component={ExcursionDetails} />
+      <Route path="/airport-transfers" component={AirportTransfers} />
+      <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/booking" component={Booking} />
+      <Route path="/search" component={SearchResults} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-1">
+            <Router />
+          </main>
+          <Footer />
+        </div>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

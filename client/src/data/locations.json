@@ -1,0 +1,123 @@
+[
+  {
+    "id": "tunis-carthage-airport",
+    "name": "Tunis-Carthage Airport",
+    "type": "airport",
+    "city": "Tunis"
+  },
+  {
+    "id": "enfidha-airport",
+    "name": "Enfidha-Hammamet Airport",
+    "type": "airport",
+    "city": "Enfidha"
+  },
+  {
+    "id": "monastir-airport",
+    "name": "Monastir Airport",
+    "type": "airport",
+    "city": "Monastir"
+  },
+  {
+    "id": "tunis",
+    "name": "Tunis",
+    "type": "city",
+    "city": "Tunis"
+  },
+  {
+    "id": "hammamet",
+    "name": "Hammamet",
+    "type": "city",
+    "city": "Hammamet"
+  },
+  {
+    "id": "sousse",
+    "name": "Sousse",
+    "type": "city",
+    "city": "Sousse"
+  },
+  {
+    "id": "monastir",
+    "name": "Monastir",
+    "type": "city",
+    "city": "Monastir"
+  },
+  {
+    "id": "sfax",
+    "name": "Sfax",
+    "type": "city",
+    "city": "Sfax"
+  },
+  {
+    "id": "nabeul",
+    "name": "Nabeul",
+    "type": "city",
+    "city": "Nabeul"
+  },
+  {
+    "id": "djerba",
+    "name": "Djerba",
+    "type": "city",
+    "city": "Djerba"
+  },
+  {
+    "id": "tozeur",
+    "name": "Tozeur",
+    "type": "city",
+    "city": "Tozeur"
+  },
+  {
+    "id": "kairouan",
+    "name": "Kairouan",
+    "type": "city",
+    "city": "Kairouan"
+  },
+  {
+    "id": "bizerte",
+    "name": "Bizerte",
+    "type": "city",
+    "city": "Bizerte"
+  },
+  {
+    "id": "gabes",
+    "name": "Gabès",
+    "type": "city",
+    "city": "Gabès"
+  },
+  {
+    "id": "gafsa",
+    "name": "Gafsa",
+    "type": "city",
+    "city": "Gafsa"
+  },
+  {
+    "id": "beja",
+    "name": "Béja",
+    "type": "city",
+    "city": "Béja"
+  },
+  {
+    "id": "kasserine",
+    "name": "Kasserine",
+    "type": "city",
+    "city": "Kasserine"
+  },
+  {
+    "id": "medenine",
+    "name": "Médenine",
+    "type": "city",
+    "city": "Médenine"
+  },
+  {
+    "id": "sidi-bou-said",
+    "name": "Sidi Bou Said",
+    "type": "city",
+    "city": "Sidi Bou Said"
+  },
+  {
+    "id": "la-marsa",
+    "name": "La Marsa",
+    "type": "city",
+    "city": "La Marsa"
+  }
+]
+
