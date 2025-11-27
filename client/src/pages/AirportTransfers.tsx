@@ -91,9 +91,9 @@ export default function AirportTransfers() {
                     <SelectValue placeholder={t('common.select')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="tunis-carthage">Tunis-Carthage (80DT)</SelectItem>
-                    <SelectItem value="enfidha">Enfidha-Hammamet (40DT)</SelectItem>
-                    <SelectItem value="monastir">Monastir (30DT)</SelectItem>
+                    <SelectItem value="tunis-carthage">Tunis-Carthage (120DT)</SelectItem>
+                    <SelectItem value="enfidha">Enfidha-Hammamet (90DT)</SelectItem>
+                    <SelectItem value="monastir">Monastir (160DT)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
