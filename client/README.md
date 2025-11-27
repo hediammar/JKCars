@@ -59,7 +59,11 @@ client/
 │   ├── lib/           # Utilities and Supabase client
 │   ├── locales/       # Translation files
 │   └── data/          # Static data (cars, excursions)
-├── assets/            # Images and media files
+├── public/
+│   └── assets/        # Static assets (images, videos) - served at /assets/
+├── assets/            # Source assets (also copied to public for deployment)
 └── index.html         # Entry HTML file
 ```
+
+**Important**: Static assets (images, videos) must be in the `public/assets/` folder to be accessible at `/assets/` in production. Files in `public/` are copied as-is to the build output.
 

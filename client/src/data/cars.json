@@ -5,10 +5,10 @@
     "brand": "Kia",
     "model": "Rio",
     "year": 2024,
-    "image": "/assets/rio/1.jpg?w=800&q=80",
+    "image": "/assets/rio/1.jpg",
     "images": [
-      "/assets/rio/1.jpg?w=800&q=80",
-      "/assets/rio/2.jpg?w=800&q=80"
+      "/assets/rio/1.jpg",
+      "/assets/rio/2.jpg"
     ],
     "price": 95,
     "transmission": "Manual",
@@ -28,12 +28,12 @@
     "brand": "Hyundai",
     "model": "i20",
     "year": 2024,
-    "image": "/assets/i20/1.avif?w=800&q=80",
+    "image": "/assets/i20/1.avif",
     "images": [
-      "/assets/i20/1.avif?w=800&q=80",
-      "/assets/i20/2.avif?w=800&q=80",
-      "/assets/i20/3.avif?w=800&q=80",
-      "/assets/i20/4.avif?w=800&q=80"
+      "/assets/i20/1.avif",
+      "/assets/i20/2.avif",
+      "/assets/i20/3.avif",
+      "/assets/i20/4.avif"
     ],
     "price": 120,
     "transmission": "Manual",
@@ -52,12 +52,12 @@
     "brand": "Hyundai",
     "model": "i10",
     "year": 2024,
-    "image": "/assets/i10/2.avif?w=800&q=80",
+    "image": "/assets/i10/2.avif",
     "images": [
-      "/assets/i10/2.avif?w=800&q=80",
-      "/assets/i10/1.avif?w=800&q=80",
-      "/assets/i10/3.avif?w=800&q=80",
-      "/assets/i10/4.avif?w=800&q=80"
+      "/assets/i10/2.avif",
+      "/assets/i10/1.avif",
+      "/assets/i10/3.avif",
+      "/assets/i10/4.avif"
     ],
     "price": 85,
     "transmission": "Automatic",
@@ -76,12 +76,12 @@
     "brand": "Dacia",
     "model": "Sandero Stepway",
     "year": 2024,
-    "image": "/assets/stepway/1.webp?w=800&q=80",
+    "image": "/assets/stepway/1.webp",
     "images": [
-      "/assets/stepway/1.webp?w=800&q=80",
-      "/assets/stepway/2.webp?w=800&q=80",
-      "/assets/stepway/3.webp?w=800&q=80",
-      "/assets/stepway/4.webp?w=800&q=80"
+      "/assets/stepway/1.webp",
+      "/assets/stepway/2.webp",
+      "/assets/stepway/3.webp",
+      "/assets/stepway/4.webp"
     ],
     "price": 100,
     "transmission": "Automatic",
@@ -100,13 +100,13 @@
     "brand": "Morris Garage",
     "model": "MG5",
     "year": 2024,
-    "image": "/assets/mg5/mg (1).avif?w=800&q=80",
+    "image": "/assets/mg5/mg (1).avif",
     "images": [
-      "/assets/mg5/mg (1).avif?w=800&q=80",
-      "/assets/mg5/mg (2).webp?w=800&q=80",
-      "/assets/mg5/mg (3).webp?w=800&q=80",
-      "/assets/mg5/mg (4).webp?w=800&q=80",
-      "/assets/mg5/mg (1).webp?w=800&q=80"
+      "/assets/mg5/mg (1).avif",
+      "/assets/mg5/mg (2).webp",
+      "/assets/mg5/mg (3).webp",
+      "/assets/mg5/mg (4).webp",
+      "/assets/mg5/mg (1).webp"
     ],
     "price": 120,
     "transmission": "Manual",
@@ -125,11 +125,11 @@
     "brand": "Suzuki",
     "model": "Swift",
     "year": 2024,
-    "image": "/assets/swift/swift (1).jpg?w=800&q=80",
+    "image": "/assets/swift/swift (1).jpg",
     "images": [
-      "/assets/swift/swift (1).jpg?w=800&q=80",
-      "/assets/swift/swift (2).jpg?w=800&q=80",
-      "/assets/swift/swift (3).jpg?w=800&q=80"
+      "/assets/swift/swift (1).jpg",
+      "/assets/swift/swift (2).jpg",
+      "/assets/swift/swift (3).jpg"
     ],
     "price": 90,
     "transmission": "Automatic",
@@ -148,11 +148,11 @@
     "brand": "Dacia",
     "model": "Sandero",
     "year": 2024,
-    "image": "/assets/sandero/sandero (2).jpg?w=800&q=80",
+    "image": "/assets/sandero/sandero (2).jpg",
     "images": [
-      "/assets/sandero/sandero (2).jpg?w=800&q=80",
-      "/assets/sandero/sandero (1).jpg?w=800&q=80",
-      "/assets/sandero/sandero (3).jpg?w=800&q=80"
+      "/assets/sandero/sandero (2).jpg",
+      "/assets/sandero/sandero (1).jpg",
+      "/assets/sandero/sandero (3).jpg"
     ],
     "price": 95,
     "transmission": "Automatic",
@@ -171,12 +171,12 @@
     "brand": "Dacia",
     "model": "Logan",
     "year": 2024,
-    "image": "/assets/logan/1.jpg?w=800&q=80",
+    "image": "/assets/logan/1.jpg",
     "images": [
-      "/assets/logan/1.jpg?w=800&q=80",
-      "/assets/logan/2.jpg?w=800&q=80",
-      "/assets/logan/3.jpg?w=800&q=80",
-      "/assets/logan/4.jpg?w=800&q=80"
+      "/assets/logan/1.jpg",
+      "/assets/logan/2.jpg",
+      "/assets/logan/3.jpg",
+      "/assets/logan/4.jpg"
     ],
     "price": 130,
     "transmission": "Automatic",
@@ -195,11 +195,11 @@
     "brand": "Suzuki",
     "model": "Ertiga",
     "year": 2024,
-    "image": "/assets/Suzuki/ertiga1.webp?w=800&q=80",
+    "image": "/assets/Suzuki/ertiga1.webp",
     "images": [
-      "/assets/Suzuki/ertiga1.webp?w=800&q=80",
-      "/assets/Suzuki/ertiga2.jpg?w=800&q=80",
-      "/assets/Suzuki/ertiga1.jpg?w=800&q=80"
+      "/assets/Suzuki/ertiga1.webp",
+      "/assets/Suzuki/ertiga2.jpg",
+      "/assets/Suzuki/ertiga1.jpg"
     ],
     "price": 250,
     "transmission": "Automatic",
