@@ -7,9 +7,11 @@ interface VideoLoaderProps {
 export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const [isFading, setIsFading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [needsInteraction, setNeedsInteraction] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+  const lastFrameTimeRef = useRef<number>(0);
 
   const handleEnded = useCallback(() => {
     setIsFading(true);
@@ -19,155 +21,152 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
     }, 800);
   }, [onVideoEnd]);
 
-  const handleError = useCallback(() => {
-    console.log("Video failed to load, skipping loader");
-    setIsFading(true);
-    setTimeout(() => {
-      setIsVisible(false);
-      onVideoEnd();
-    }, 300);
-  }, [onVideoEnd]);
-
-  // Function to play video
-  const playVideo = useCallback(async () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    try {
-      await video.play();
-      setNeedsInteraction(false);
-    } catch (error) {
-      console.log("Autoplay prevented");
-      setNeedsInteraction(true);
-    }
-  }, []);
-
-  // Handle click on container to start video
-  const handleContainerClick = useCallback(() => {
-    if (needsInteraction) {
-      playVideo();
-    }
-  }, [needsInteraction, playVideo]);
-
   useEffect(() => {
+    const canvas = canvasRef.current;
     const video = videoRef.current;
-    if (!video) return;
+    if (!canvas || !video) return;
 
-    // Set video properties for autoplay
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
+
+    // Set canvas size to match viewport
+    const resizeCanvas = () => {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+    };
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Set video properties (don't try to play, just load)
     video.muted = true;
     video.playsInline = true;
     video.loop = false;
-    video.defaultMuted = true;
+    video.preload = "auto";
+    video.currentTime = 0;
 
-    // Handle when video can play
-    const handleCanPlay = () => {
-      playVideo();
-    };
+    let isSeeking = false;
+    const targetFPS = 30; // Target frames per second
+    const frameInterval = 1000 / targetFPS;
 
-    // Handle when video is loaded enough
-    const handleLoadedData = () => {
-      playVideo();
-    };
+    // Function to seek and draw frame (bypasses autoplay restrictions)
+    const seekAndDraw = (targetTime: number) => {
+      if (isSeeking || video.ended) return;
 
-    // Handle when video starts playing
-    const handlePlaying = () => {
-      setNeedsInteraction(false);
-    };
+      // Only seek if we need to move forward significantly
+      if (Math.abs(video.currentTime - targetTime) > 0.033) {
+        isSeeking = true;
+        video.currentTime = targetTime;
 
-    // Try to play on any user interaction
-    const handleUserInteraction = () => {
-      if (video.paused) {
-        playVideo();
+        const onSeeked = () => {
+          isSeeking = false;
+          if (ctx && video.readyState >= 2) {
+            ctx.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
+          }
+          video.removeEventListener("seeked", onSeeked);
+        };
+
+        video.addEventListener("seeked", onSeeked, { once: true });
+      } else if (video.readyState >= 2) {
+        // Draw current frame without seeking
+        ctx.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
       }
+    };
+
+    // Animation loop using requestAnimationFrame
+    const animate = (currentTime: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = currentTime;
+        lastFrameTimeRef.current = currentTime;
+      }
+
+      const elapsed = (currentTime - startTimeRef.current) / 1000;
+      const deltaTime = currentTime - lastFrameTimeRef.current;
+
+      // Only update if enough time has passed (throttle to target FPS)
+      if (deltaTime >= frameInterval) {
+        if (elapsed >= video.duration) {
+          // Video finished
+          handleEnded();
+          return;
+        }
+
+        seekAndDraw(elapsed);
+        lastFrameTimeRef.current = currentTime;
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    // Start animation when video metadata is loaded
+    const handleLoadedMetadata = () => {
+      video.currentTime = 0;
+      startTimeRef.current = null;
+      lastFrameTimeRef.current = 0;
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    // Handle video ready
+    const handleCanPlay = () => {
+      if (video.readyState >= 2) {
+        ctx.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
+      }
+    };
+
+    // Error handling
+    const handleError = () => {
+      console.log("Video error, skipping loader");
+      handleEnded();
     };
 
     // Add event listeners
+    video.addEventListener("loadedmetadata", handleLoadedMetadata, { once: true });
     video.addEventListener("canplay", handleCanPlay);
-    video.addEventListener("loadeddata", handleLoadedData);
-    video.addEventListener("playing", handlePlaying);
-    video.addEventListener("ended", handleEnded);
     video.addEventListener("error", handleError);
 
-    // Add user interaction listeners for autoplay
-    const interactionEvents = ["click", "touchstart", "keydown", "mousedown", "scroll", "wheel"];
-    interactionEvents.forEach(event => {
-      document.addEventListener(event, handleUserInteraction, { once: true, passive: true });
-    });
-
-    // Try to load and play immediately
+    // Load the video (this doesn't require autoplay)
     video.load();
-    
-    // Multiple attempts to play
-    const timeout1 = setTimeout(() => playVideo(), 100);
-    const timeout2 = setTimeout(() => playVideo(), 500);
-    playVideo(); // Immediate attempt
-
-    // Fallback: if still not playing after 2 seconds, show interaction needed
-    const fallbackTimeout = setTimeout(() => {
-      if (video.paused) {
-        setNeedsInteraction(true);
-      }
-    }, 2000);
 
     return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-      clearTimeout(fallbackTimeout);
+      window.removeEventListener("resize", resizeCanvas);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       video.removeEventListener("canplay", handleCanPlay);
-      video.removeEventListener("loadeddata", handleLoadedData);
-      video.removeEventListener("playing", handlePlaying);
-      video.removeEventListener("ended", handleEnded);
       video.removeEventListener("error", handleError);
-      interactionEvents.forEach(event => {
-        document.removeEventListener(event, handleUserInteraction);
-      });
+      video.pause();
+      video.src = "";
     };
-  }, [playVideo, handleEnded, handleError]);
+  }, [handleEnded]);
 
   if (!isVisible) return null;
 
   return (
     <div
-      ref={containerRef}
-      onClick={handleContainerClick}
       className={`fixed inset-0 z-[9999] bg-black transition-opacity duration-800 ease-in-out ${
         isFading ? "opacity-0" : "opacity-100"
-      } ${needsInteraction ? "cursor-pointer" : ""}`}
+      }`}
       style={{ transitionDuration: "800ms" }}
     >
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full object-cover"
+        style={{ display: "block" }}
+      />
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
-        playsInline
+        className="hidden"
         muted
-        autoPlay
+        playsInline
         preload="auto"
         loop={false}
-        disablePictureInPicture
-        controls={false}
-        onLoadedData={playVideo}
-        onCanPlay={playVideo}
       >
         <source src="/assets/intro.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
-      {needsInteraction && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-white text-center">
-            <div className="mb-4">
-              <svg
-                className="w-16 h-16 mx-auto animate-pulse"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-            <p className="text-lg font-medium">Click to play intro</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
-
