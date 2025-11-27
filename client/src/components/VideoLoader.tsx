@@ -7,11 +7,7 @@ interface VideoLoaderProps {
 export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const [isFading, setIsFading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const animationFrameRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number | null>(null);
-  const lastFrameTimeRef = useRef<number>(0);
 
   const handleEnded = useCallback(() => {
     setIsFading(true);
@@ -22,126 +18,70 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   }, [onVideoEnd]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
     const video = videoRef.current;
-    if (!canvas || !video) return;
+    if (!video) return;
 
-    const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) return;
-
-    // Set canvas size to match viewport
-    const resizeCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      ctx.scale(dpr, dpr);
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-    };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    // Set video properties (don't try to play, just load)
+    // Set video properties for autoplay
     video.muted = true;
     video.playsInline = true;
     video.loop = false;
     video.preload = "auto";
-    video.currentTime = 0;
 
-    let isSeeking = false;
-    const targetFPS = 30; // Target frames per second
-    const frameInterval = 1000 / targetFPS;
-
-    // Function to seek and draw frame (bypasses autoplay restrictions)
-    const seekAndDraw = (targetTime: number) => {
-      if (isSeeking || video.ended) return;
-
-      // Only seek if we need to move forward significantly
-      if (Math.abs(video.currentTime - targetTime) > 0.033) {
-        isSeeking = true;
-        video.currentTime = targetTime;
-
-        const onSeeked = () => {
-          isSeeking = false;
-          if (ctx && video.readyState >= 2) {
-            ctx.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
-          }
-          video.removeEventListener("seeked", onSeeked);
-        };
-
-        video.addEventListener("seeked", onSeeked, { once: true });
-      } else if (video.readyState >= 2) {
-        // Draw current frame without seeking
-        ctx.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
-      }
+    const handleEnded = () => {
+      setIsFading(true);
+      setTimeout(() => {
+        setIsVisible(false);
+        onVideoEnd();
+      }, 800);
     };
 
-    // Animation loop using requestAnimationFrame
-    const animate = (currentTime: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = currentTime;
-        lastFrameTimeRef.current = currentTime;
-      }
-
-      const elapsed = (currentTime - startTimeRef.current) / 1000;
-      const deltaTime = currentTime - lastFrameTimeRef.current;
-
-      // Only update if enough time has passed (throttle to target FPS)
-      if (deltaTime >= frameInterval) {
-        if (elapsed >= video.duration) {
-          // Video finished
-          handleEnded();
-          return;
-        }
-
-        seekAndDraw(elapsed);
-        lastFrameTimeRef.current = currentTime;
-      }
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    // Start animation when video metadata is loaded
-    const handleLoadedMetadata = () => {
-      video.currentTime = 0;
-      startTimeRef.current = null;
-      lastFrameTimeRef.current = 0;
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    // Handle video ready
-    const handleCanPlay = () => {
-      if (video.readyState >= 2) {
-        ctx.drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
-      }
-    };
-
-    // Error handling
     const handleError = () => {
-      console.log("Video error, skipping loader");
-      handleEnded();
+      console.log("Video failed to load, skipping loader");
+      setIsFading(true);
+      setTimeout(() => {
+        setIsVisible(false);
+        onVideoEnd();
+      }, 300);
+    };
+
+    // Try to play the video
+    const attemptPlay = async () => {
+      try {
+        await video.play();
+      } catch (error) {
+        console.log("Autoplay prevented:", error);
+        // If autoplay fails, skip the video
+        handleError();
+      }
+    };
+
+    // Handle when video can play
+    const handleCanPlay = () => {
+      attemptPlay();
+    };
+
+    // Handle when video is loaded enough
+    const handleLoadedData = () => {
+      attemptPlay();
     };
 
     // Add event listeners
-    video.addEventListener("loadedmetadata", handleLoadedMetadata, { once: true });
     video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("ended", handleEnded);
     video.addEventListener("error", handleError);
 
-    // Load the video (this doesn't require autoplay)
+    // Try to load and play
     video.load();
+    attemptPlay();
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("ended", handleEnded);
       video.removeEventListener("error", handleError);
-      video.pause();
-      video.src = "";
     };
-  }, [handleEnded]);
+  }, [onVideoEnd]);
 
   if (!isVisible) return null;
 
@@ -152,20 +92,19 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       }`}
       style={{ transitionDuration: "800ms" }}
     >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full object-cover"
-        style={{ display: "block" }}
-      />
       <video
         ref={videoRef}
-        className="hidden"
-        muted
+        className="w-full h-full object-cover"
         playsInline
+        muted
+        autoPlay
         preload="auto"
         loop={false}
+        disablePictureInPicture
+        controls={false}
       >
         <source src="/assets/intro.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
     </div>
   );
