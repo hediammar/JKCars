@@ -4,6 +4,7 @@ import { Car as CarType } from '@shared/schema';
 import { Users, Fuel, Settings, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CarCardProps {
   car: CarType;
@@ -11,6 +12,8 @@ interface CarCardProps {
 }
 
 export default function CarCard({ car, index = 0 }: CarCardProps) {
+  const { t } = useLanguage();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -29,7 +32,7 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
           
           {car.discount && (
             <Badge className="absolute top-4 right-4 bg-red-500 text-white border-0 shadow-lg">
-              {car.discount}% OFF
+              {car.discount}% {t('carCard.discountSuffix')}
             </Badge>
           )}
           
@@ -43,15 +46,21 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div className="flex items-center gap-2 text-gray-600">
               <Users className="w-4 h-4 text-brand-500" />
-              <span className="text-sm">{car.seats} Seats</span>
+              <span className="text-sm">
+                {car.seats} {t('carDetails.seats')}
+              </span>
             </div>
             <div className="flex items-center gap-2 text-gray-600">
               <Settings className="w-4 h-4 text-brand-500" />
-              <span className="text-sm">{car.transmission}</span>
+              <span className="text-sm">
+                {t('carDetails.transmission')}: {car.transmission}
+              </span>
             </div>
             <div className="flex items-center gap-2 text-gray-600">
               <Fuel className="w-4 h-4 text-brand-500" />
-              <span className="text-sm">{car.fuel}</span>
+              <span className="text-sm">
+                {t('carDetails.fuelType')}: {car.fuel}
+              </span>
             </div>
           </div>
 
@@ -67,13 +76,13 @@ export default function CarCard({ car, index = 0 }: CarCardProps) {
                   `${car.price}DT`
                 )}
               </div>
-              <div className="text-sm text-gray-500">per day</div>
+              <div className="text-sm text-gray-500">{t('common.perDay')}</div>
             </div>
           </div>
 
           <Link href={`/car/${car.id}`}>
             <Button className="w-full group/btn" data-testid={`button-view-details-${car.id}`}>
-              View Details
+              {t('common.viewDetails')}
               <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
             </Button>
           </Link>

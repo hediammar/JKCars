@@ -1,12 +1,13 @@
 [
   {
     "id": "1",
-    "destination": "Tunis Medina",
+    "destination": "Tunis Cartahge",
     "title": "Tunis Medina & Carthage Heritage Tour",
     "description": "Explore the historic heart of Tunisia with a guided tour through the UNESCO-listed Medina of Tunis and the ancient ruins of Carthage.",
     "image": "/assets/excursion/tunis_medina.jpg?w=800&q=80",
     "duration": "Full Day",
-    "price": 85,
+    "price": 220,
+    "price3": 300,
     "highlights": [
       "UNESCO World Heritage Medina",
       "Ancient Carthage Ruins",
@@ -17,44 +18,45 @@
   },
   {
     "id": "2",
-    "destination": "Sidi Bou Said",
-    "title": "Sidi Bou Said & La Marsa Coastal Experience",
+    "destination": "Sousse Pack",
+    "title": "Sousse City & Medina",
     "description": "Discover the charming blue and white village of Sidi Bou Said, perched above the Mediterranean, followed by leisure time at La Marsa beach.",
-    "image": "/assets/excursion/sidibousaid.webp?w=800&q=80",
+    "image": "/assets/excursion/sousse.jpg?w=800&q=80",
     "duration": "Half Day",
-    "price": 55,
+    "price": 200,
+    "price3": 260,
     "highlights": [
-      "Traditional Blue & White Architecture",
-      "Panoramic Sea Views",
-      "Café des Délices",
-      "Artisan Shops & Galleries"
+      "Sousse Palace",
+      "Medina",
+      "Traditional Tunisian Lunch"
     ],
-    "included": ["Transportation", "Guide", "Coffee at Café des Délices"]
+    "included": ["Transportation", "Guide", "Lunch"]
   },
   {
     "id": "3",
-    "destination": "Sahara Desert",
-    "title": "Sahara Desert Adventure - 2 Days",
-    "description": "Experience the magic of the Sahara with camel rides, desert camping under the stars, and visits to ancient Berber villages.",
-    "image": "/assets/excursion/sahara.jpg?w=800&q=80",
-    "duration": "Multi-Day",
-    "price": 320,
+    "destination": "Sousse/Monastir",
+    "title": "Sousse & Monastir",
+    "description": "Discover the charming city of Monastir, known for its beautiful beaches and historic sites.",
+    "image": "/assets/excursion/monastir.avif?w=800&q=80",
+    "duration": "Half Day",
+    "price": 240,
+    "price3": 300,
     "highlights": [
-      "Camel Trekking at Sunset",
-      "Overnight Desert Camp",
-      "Traditional Berber Dinner",
-      "Douz & Tozeur Oasis Visit"
+      "Sousse Palace",
+      "Medina",
+      "Traditional Tunisian Lunch"
     ],
-    "included": ["4x4 Transportation", "Camping Equipment", "All Meals", "Professional Guide", "Camel Ride"]
+    "included": ["Transportation", "Guide", "Lunch"]
   },
   {
     "id": "4",
-    "destination": "Kairouan",
+    "destination": "Kairouan Jem",
     "title": "Kairouan & El Jem Colosseum",
     "description": "Visit the holy city of Kairouan and the impressive Roman amphitheater of El Jem, both UNESCO World Heritage sites.",
     "image": "/assets/excursion/eljem.jpg?w=800&q=80",
     "duration": "Full Day",
-    "price": 95,
+    "price": 300,
+    "price3": 350,
     "highlights": [
       "Great Mosque of Kairouan",
       "El Jem Roman Amphitheater",
@@ -70,7 +72,8 @@
     "description": "Step back in time at Tunisia's best-preserved Roman city, featuring temples, theaters, and stunning mosaics.",
     "image": "/assets/excursion/dougga.avif?w=800&q=80",
     "duration": "Half Day",
-    "price": 65,
+    "price": 400,
+    "price3": 500,
     "highlights": [
       "Capitol Temple",
       "Roman Theater",
@@ -81,18 +84,19 @@
   },
   {
     "id": "6",
-    "destination": "Hammamet",
-    "title": "Hammamet Medina & Beach Relaxation",
-    "description": "Explore the local Medina of Hammamet in the morning, followed by relaxation at pristine Mediterranean beaches.",
-    "image": "/assets/excursion/hammamet.jpg?w=800&q=80",
+    "destination": "Friguia Zoo Park",
+    "title": "Friguia Zoo Park",
+    "description": "Visit the Friguia Zoo Park, one of the largest zoos in Tunisia, and see a variety of animals from around the world.",
+    "image": "/assets/excursion/friguia.jpg?w=800&q=80",
     "duration": "Half Day",
-    "price": 40,
+    "price": 200,
+    "price3": 260,
     "highlights": [
-      "Historic Hammamet Medina",
-      "Kasbah Fortress",
-      "Beach Time",
-      "Local Souk Shopping"
+      "Zoo Park",
+      "Animal Shows",
+      "Interactive Exhibits",
+      "Playgrounds"
     ],
-    "included": ["Local Guide", "Beach Access"]
+    "included": ["Transportation", "Guide", "Lunch"]
   }
 ]

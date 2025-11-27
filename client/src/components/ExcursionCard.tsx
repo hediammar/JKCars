@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { Excursion } from '@shared/schema';
-import { Clock, MapPin, Users, ArrowRight } from 'lucide-react';
+import { Clock, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ExcursionCardProps {
   excursion: Excursion;
@@ -12,6 +13,9 @@ interface ExcursionCardProps {
 }
 
 export default function ExcursionCard({ excursion, index = 0, onBook }: ExcursionCardProps) {
+  const { t } = useLanguage();
+  const largeGroupPrice = excursion.price3 ?? excursion.price;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -38,7 +42,7 @@ export default function ExcursionCard({ excursion, index = 0, onBook }: Excursio
                 <MapPin className="w-4 h-4" />
                 {excursion.destination}
               </div>
-              <h3 className="text-white text-xl font-bold" data-testid={`text-excursion-title-${excursion.id}`}>
+            <h3 className="text-white text-xl font-bold" data-testid={`text-excursion-title-${excursion.id}`}>
                 {excursion.title}
               </h3>
             </div>
@@ -51,7 +55,9 @@ export default function ExcursionCard({ excursion, index = 0, onBook }: Excursio
           </p>
 
           <div className="mb-4">
-            <h4 className="text-sm font-semibold text-gray-700 mb-2">Highlights:</h4>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2">
+              {t('excursions.highlights')}
+            </h4>
             <ul className="space-y-1">
               {excursion.highlights.slice(0, 3).map((highlight, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -63,13 +69,29 @@ export default function ExcursionCard({ excursion, index = 0, onBook }: Excursio
           </div>
 
           <div className="mt-auto">
-            <div className="flex items-center justify-between mb-4 pb-4 border-t border-gray-100 pt-4">
-              <div>
-                <div className="text-3xl font-bold text-brand-600" data-testid={`text-excursion-price-${excursion.id}`}>
-                  {excursion.price}DT
+            <div className="mb-4 pb-4 border-t border-gray-100 pt-4">
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <div
+                    className="text-2xl font-bold text-brand-600"
+                    data-testid={`text-excursion-price-${excursion.id}`}
+                  >
+                    {excursion.price}DT
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {t('excursions.smallGroupLabel')} · {t('excursions.perGroup')}
+                  </div>
                 </div>
-                <div className="text-sm text-gray-500">per person</div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-gray-900">
+                    {largeGroupPrice}DT
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {t('excursions.largeGroupLabel')} · {t('excursions.perGroup')}
+                  </div>
+                </div>
               </div>
+
               <div className="flex items-center gap-2 text-gray-600">
                 <Clock className="w-4 h-4 text-brand-500" />
                 <span className="text-sm">{excursion.duration}</span>
@@ -82,7 +104,7 @@ export default function ExcursionCard({ excursion, index = 0, onBook }: Excursio
                 onClick={() => onBook?.(excursion)}
                 data-testid={`button-book-excursion-${excursion.id}`}
               >
-                Book Now
+                {t('excursions.bookNow')}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
               </Button>
             </Link>

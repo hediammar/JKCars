@@ -10,7 +10,7 @@
       "/assets/rio/1.jpg?w=800&q=80",
       "/assets/rio/2.jpg?w=800&q=80"
     ],
-    "price": 120,
+    "price": 95,
     "transmission": "Manual",
     "fuel": "Diesel",
     "seats": 5,
@@ -19,8 +19,8 @@
     "consumption": "5.2L/100km",
     "description": "Experience luxury and performance with the BMW 5 Series. Perfect for business trips or exploring Tunisia in style.",
     "features": ["Leather Seats", "Navigation", "Climate Control", "Cruise Control", "Bluetooth"],
-    "available": true,
-    "discount": 10
+    "available": true
+    
   },
   {
     "id": "2",
@@ -35,7 +35,7 @@
       "/assets/i20/3.avif?w=800&q=80",
       "/assets/i20/4.avif?w=800&q=80"
     ],
-    "price": 110,
+    "price": 120,
     "transmission": "Manual",
     "fuel": "Petrol",
     "seats": 5,
@@ -59,7 +59,7 @@
       "/assets/i10/3.avif?w=800&q=80",
       "/assets/i10/4.avif?w=800&q=80"
     ],
-    "price": 105,
+    "price": 85,
     "transmission": "Automatic",
     "fuel": "Petrol",
     "seats": 5,
@@ -83,7 +83,7 @@
       "/assets/stepway/3.webp?w=800&q=80",
       "/assets/stepway/4.webp?w=800&q=80"
     ],
-    "price": 150,
+    "price": 100,
     "transmission": "Automatic",
     "fuel": "Diesel",
     "seats": 5,
@@ -96,19 +96,19 @@
   },
   {
     "id": "5",
-    "name": "Volkswagen Polo Virtus",
-    "brand": "Volkswagen",
-    "model": "Polo Virtus",
+    "name": "MG 5",
+    "brand": "Morris Garage",
+    "model": "MG5",
     "year": 2024,
-    "image": "/assets/virtus/1.jpg?w=800&q=80",
+    "image": "/assets/mg5/mg (1).avif?w=800&q=80",
     "images": [
-      "/assets/virtus/1.jpg?w=800&q=80",
-      "/assets/virtus/2.jpg?w=800&q=80",
-      "/assets/virtus/3.jpg?w=800&q=80",
-      "/assets/virtus/4.jpg?w=800&q=80",
-      "/assets/virtus/5.webp?w=800&q=80"
+      "/assets/mg5/mg (1).avif?w=800&q=80",
+      "/assets/mg5/mg (2).webp?w=800&q=80",
+      "/assets/mg5/mg (3).webp?w=800&q=80",
+      "/assets/mg5/mg (4).webp?w=800&q=80",
+      "/assets/mg5/mg (1).webp?w=800&q=80"
     ],
-    "price": 65,
+    "price": 120,
     "transmission": "Manual",
     "fuel": "Petrol",
     "seats": 5,
@@ -117,23 +117,21 @@
     "consumption": "7.0L/100km",
     "description": "Sporty and efficient, the Golf GTI is perfect for city exploration and coastal drives.",
     "features": ["Sport Seats", "Digital Cockpit", "Rear Camera", "Keyless Entry", "Heated Seats"],
-    "available": true,
-    "discount": 15
+    "available": true
   },
   {
     "id": "6",
-    "name": "Skoda Fabia",
-    "brand": "Skoda",
-    "model": "Fabia",
+    "name": "Suzuki Swift",
+    "brand": "Suzuki",
+    "model": "Swift",
     "year": 2024,
-    "image": "/assets/fabia/1.jpg?w=800&q=80",
+    "image": "/assets/swift/swift (1).jpg?w=800&q=80",
     "images": [
-      "/assets/fabia/1.jpg?w=800&q=80",
-      "/assets/fabia/2.jpg?w=800&q=80",
-      "/assets/fabia/3.jpg?w=800&q=80",
-      "/assets/fabia/4.jpg?w=800&q=80"
+      "/assets/swift/swift (1).jpg?w=800&q=80",
+      "/assets/swift/swift (2).jpg?w=800&q=80",
+      "/assets/swift/swift (3).jpg?w=800&q=80"
     ],
-    "price": 95,
+    "price": 90,
     "transmission": "Automatic",
     "fuel": "Hybrid",
     "seats": 5,
@@ -146,44 +144,19 @@
   },
   {
     "id": "7",
-    "name": "Renault Clio",
-    "brand": "Renault",
-    "model": "Clio",
+    "name": "Dacia Sandero",
+    "brand": "Dacia",
+    "model": "Sandero",
     "year": 2024,
-    "image": "/assets/clio/1.jpeg?w=800&q=80",
+    "image": "/assets/sandero/sandero (2).jpg?w=800&q=80",
     "images": [
-      "/assets/clio/1.jpeg?w=800&q=80",
-      "/assets/clio/2.jpg?w=800&q=80",
-      "/assets/clio/3.jpg?w=800&q=80",
-      "/assets/clio/4.jpg?w=800&q=80"
+      "/assets/sandero/sandero (2).jpg?w=800&q=80",
+      "/assets/sandero/sandero (1).jpg?w=800&q=80",
+      "/assets/sandero/sandero (3).jpg?w=800&q=80"
     ],
     "price": 95,
     "transmission": "Automatic",
     "fuel": "Hybrid",
-    "seats": 5,
-    "luggage": 4,
-    "horsepower": 219,
-    "consumption": "4.5L/100km",
-    "description": "Eco-friendly and spacious, the RAV4 Hybrid offers excellent fuel economy for long-distance travel.",
-    "features": ["Hybrid Engine", "All-Wheel Drive", "Safety Sense", "Smart Entry", "Power Tailgate"],
-    "available": true
-  },
-  {
-    "id": "8",
-    "name": "Volkswagen Polo 8",
-    "brand": "Volkswagen",
-    "model": "Polo 8",
-    "year": 2024,
-    "image": "/assets/polo/1.webp?w=800&q=80",
-    "images": [
-      "/assets/polo/1.webp?w=800&q=80",
-      "/assets/polo/2.webp?w=800&q=80",
-      "/assets/polo/3.webp?w=800&q=80",
-      "/assets/polo/4.webp?w=800&q=80"
-    ],
-    "price": 95,
-    "transmission": "Automatic",
-    "fuel": "Petrol",
     "seats": 5,
     "luggage": 4,
     "horsepower": 219,
@@ -205,7 +178,7 @@
       "/assets/logan/3.jpg?w=800&q=80",
       "/assets/logan/4.jpg?w=800&q=80"
     ],
-    "price": 95,
+    "price": 130,
     "transmission": "Automatic",
     "fuel": "Petrol", 
     "seats": 5,
@@ -218,18 +191,17 @@
   },
   {
     "id": "10",
-    "name": "Volkswagen Transporter",
-    "brand": "Volkswagen",
-    "model": "Transporter",
+    "name": "Suzuki Ertiga",
+    "brand": "Suzuki",
+    "model": "Ertiga",
     "year": 2024,
-    "image": "/assets/Transporter/1.webp?w=800&q=80",
+    "image": "/assets/Suzuki/ertiga1.webp?w=800&q=80",
     "images": [
-      "/assets/Transporter/1.webp?w=800&q=80",
-      "/assets/Transporter/2.webp?w=800&q=80",
-      "/assets/Transporter/3.webp?w=800&q=80",
-      "/assets/Transporter/4.webp?w=800&q=80"
+      "/assets/Suzuki/ertiga1.webp?w=800&q=80",
+      "/assets/Suzuki/ertiga2.jpg?w=800&q=80",
+      "/assets/Suzuki/ertiga1.jpg?w=800&q=80"
     ],
-    "price": 95,
+    "price": 250,
     "transmission": "Automatic",
     "fuel": "Petrol",
     "seats": 5,

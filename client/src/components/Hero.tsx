@@ -183,7 +183,8 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative h-screen flex flex-col overflow-hidden">
+      {/* Background Image */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -191,48 +192,56 @@ export default function Hero() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
-      >
-          
-      </div>
+      />
+      
+      {/* Dark Overlay for better text readability */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-8"
-        >
-          <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            {t('hero.title')}
-          </motion.h1>
+      {/* Spacer for navbar (64px = 4rem) */}
+      <div className="h-16 flex-shrink-0" />
 
-          <motion.p
-            className="text-xl md:text-2xl text-brand-100 mb-8 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            {t('hero.subtitle')}
-          </motion.p>
-        </motion.div>
+      {/* Content container - centers content in remaining space */}
+      <div className="relative z-10 flex-1 flex items-center justify-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left side - Title and Subtitle */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-left"
+            >
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight drop-shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+              >
+                {t('hero.title')}
+              </motion.h1>
 
-        {/* Search Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="max-w-5xl mx-auto"
-        >
-          <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8">
-            <div className="space-y-6">
+              <motion.p
+                className="text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed drop-shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                {t('hero.subtitle')}
+              </motion.p>
+            </motion.div>
+
+            {/* Right side - Search Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="w-full"
+            >
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-6 md:p-8 lg:p-10">
+            <div className="space-y-6 md:space-y-8">
               {/* Pickup & Return Location */}
               <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                <label className="text-sm font-semibold text-gray-800 mb-3 block">
                   {t('hero.pickupReturn')}
                 </label>
                 <div className="relative" ref={pickupContainerRef}>
@@ -258,7 +267,7 @@ export default function Hero() {
                       }
                     }}
                     onKeyDown={handlePickupKeyDown}
-                    className="pl-10 h-12 text-base"
+                    className="pl-10 h-12 text-base border-gray-200 focus:border-brand-500 focus:ring-brand-500"
                   />
                   {showPickupSuggestions && filteredPickupLocations.length > 0 && (
                     <div
@@ -296,9 +305,9 @@ export default function Hero() {
                 {!differentReturn && (
                   <button
                     onClick={() => setDifferentReturn(true)}
-                    className="mt-2 text-sm text-brand-600 hover:text-brand-700 font-medium"
+                    className="mt-3 text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors flex items-center gap-1"
                   >
-                    {t('hero.differentReturn')}
+                    <span>+</span> {t('hero.differentReturn')}
                   </button>
                 )}
                 {differentReturn && (
@@ -325,7 +334,7 @@ export default function Hero() {
                         }
                       }}
                       onKeyDown={handleReturnKeyDown}
-                      className="pl-10 h-12 text-base"
+                      className="pl-10 h-12 text-base border-gray-200 focus:border-brand-500 focus:ring-brand-500"
                     />
                     <button
                       onClick={() => {
@@ -374,9 +383,9 @@ export default function Hero() {
               </div>
 
               {/* Dates and Times */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                  <label className="text-sm font-semibold text-gray-800 mb-3 block">
                     {t('hero.pickupDate')}
                   </label>
                   <div className="flex gap-2">
@@ -385,7 +394,7 @@ export default function Hero() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12",
+                            "w-full justify-start text-left font-normal h-12 border-gray-200 hover:border-brand-500 hover:bg-brand-50/50 transition-colors",
                             !pickupDate && "text-muted-foreground"
                           )}
                         >
@@ -403,7 +412,7 @@ export default function Hero() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <div className="border-2 border-transparent rounded-lg p-1 w-48 h-12 flex items-center justify-center overflow-hidden">
+                    <div className="border border-gray-200 rounded-lg p-1 w-48 h-12 flex items-center justify-center overflow-hidden hover:border-brand-500 transition-colors bg-white">
                       <TimePicker
                         value={pickupTime || { hour: '12', minute: '00' }}
                         onChange={(newTime) => setPickupTime(newTime)}
@@ -414,7 +423,7 @@ export default function Hero() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                  <label className="text-sm font-semibold text-gray-800 mb-3 block">
                     {t('hero.returnDate')}
                   </label>
                   <div className="flex gap-2">
@@ -423,7 +432,7 @@ export default function Hero() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12",
+                            "w-full justify-start text-left font-normal h-12 border-gray-200 hover:border-brand-500 hover:bg-brand-50/50 transition-colors",
                             !returnDate && "text-muted-foreground"
                           )}
                         >
@@ -443,7 +452,7 @@ export default function Hero() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <div className="border-2 border-transparent rounded-lg p-1 w-48 h-12 flex items-center justify-center overflow-hidden">
+                    <div className="border border-gray-200 rounded-lg p-1 w-48 h-12 flex items-center justify-center overflow-hidden hover:border-brand-500 transition-colors bg-white">
                       <TimePicker
                         value={returnTime || { hour: '12', minute: '00' }}
                         onChange={(newTime) => setReturnTime(newTime)}
@@ -458,7 +467,7 @@ export default function Hero() {
               <Button
                 onClick={handleSearch}
                 size="lg"
-                className="w-full h-14 text-lg font-semibold shadow-lg"
+                className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                 disabled={!pickupLocation || !pickupDate || !returnDate}
               >
                 {t('common.search')}
@@ -466,35 +475,17 @@ export default function Hero() {
               </Button>
             </div>
           </div>
-        </motion.div>
-
-        <motion.div
-          className="mt-16 flex justify-center gap-12 text-white"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
-        >
-          <div className="text-center">
-            <div className="text-4xl font-bold text-brand-300">10+</div>
-            <div className="text-sm text-brand-100 mt-1">{t('hero.stats.premiumCars')}</div>
+            </motion.div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-brand-300">20+</div>
-            <div className="text-sm text-brand-100 mt-1">{t('hero.stats.destinations')}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-brand-300">500+</div>
-            <div className="text-sm text-brand-100 mt-1">{t('hero.stats.happyClients')}</div>
-          </div>
-        </motion.div>
+        </div>
       </div>
 
       <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-10"
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
       >
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
+        <div className="w-6 h-10 border-2 border-white/60 rounded-full flex items-start justify-center p-2 backdrop-blur-sm">
           <motion.div
             className="w-1.5 h-1.5 bg-white rounded-full"
             animate={{ y: [0, 12, 0] }}

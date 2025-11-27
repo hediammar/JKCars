@@ -7,6 +7,12 @@ import { Car, Shield, HeadphonesIcon, Award, MapPin, Clock } from 'lucide-react'
 import carsDataRaw from '@/data/cars.json';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+const stats = [
+  { value: '10+', labelKey: 'hero.stats.premiumCars' },
+  { value: '20+', labelKey: 'hero.stats.destinations' },
+  { value: '500+', labelKey: 'hero.stats.happyClients' },
+];
+
 const carsData = carsDataRaw as CarType[];
 
 export default function Home() {
@@ -16,6 +22,37 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Hero />
+
+      {/* Stats Section */}
+      <section className="py-16 md:py-20 bg-gradient-to-br from-brand-500 to-brand-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
+          >
+            {stats.map((stat, index) => (
+              <motion.div
+                key={stat.labelKey}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-base md:text-lg text-white/90 font-medium">
+                  {t(stat.labelKey)}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
       <section className="py-20 bg-gradient-to-br from-brand-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

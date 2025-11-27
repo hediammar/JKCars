@@ -40,10 +40,18 @@ export default function ExcursionDetails() {
     minivan: 35,
   };
 
+  const getGroupPrice = (exc: Excursion, personsCount: number) => {
+    if (personsCount <= 3) return exc.price;
+    if (personsCount >= 4 && personsCount <= 7) {
+      return exc.price3 ?? exc.price;
+    }
+    return exc.price3 ?? exc.price;
+  };
+
   const calculateTotal = () => {
     if (!excursion) return 0;
     
-    let total = excursion.price * persons;
+    let total = getGroupPrice(excursion, persons);
     total += carTypePrices[carType as keyof typeof carTypePrices];
     
     addOns.forEach(addon => {
@@ -161,9 +169,20 @@ export default function ExcursionDetails() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
               <div className="mb-6">
-                <div className="text-sm text-gray-500 mb-1">{t('excursionDetails.pricePerPerson')}</div>
-                <div className="text-4xl font-bold text-brand-600">
-                  {excursion.price}DT
+                <div className="text-sm text-gray-500 mb-2">{t('excursionDetails.pricePerGroup')}</div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-brand-50 rounded-lg p-4">
+                    <div className="text-xs text-gray-500 mb-1">{t('excursions.smallGroupLabel')}</div>
+                    <div className="text-3xl font-semibold text-brand-600">{excursion.price}DT</div>
+                    <div className="text-xs text-gray-500 mt-1">{t('excursions.perGroup')}</div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="text-xs text-gray-500 mb-1">{t('excursions.largeGroupLabel')}</div>
+                    <div className="text-3xl font-semibold text-gray-900">
+                      {(excursion.price3 ?? excursion.price)}DT
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">{t('excursions.perGroup')}</div>
+                  </div>
                 </div>
               </div>
 
@@ -212,10 +231,21 @@ export default function ExcursionDetails() {
                     id="persons"
                     type="number"
                     min="1"
+                    max="7"
                     value={persons}
-                    onChange={(e) => setPersons(parseInt(e.target.value) || 1)}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value, 10);
+                      if (isNaN(value)) {
+                        setPersons(1);
+                        return;
+                      }
+                      setPersons(Math.max(1, Math.min(7, value)));
+                    }}
                     data-testid="input-persons"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {t('excursions.smallGroupLabel')} / {t('excursions.largeGroupLabel')}
+                  </p>
                 </div>
               </div>
 

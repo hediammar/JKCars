@@ -33,11 +33,11 @@ try {
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
     try {
-      // Get language from localStorage or default to English
+      // Get language from localStorage or default to French
       const saved = localStorage.getItem('language') as Language;
-      return saved && (saved === 'en' || saved === 'fr') ? saved : 'en';
+      return saved && (saved === 'en' || saved === 'fr') ? saved : 'fr';
     } catch {
-      return 'en';
+      return 'fr';
     }
   });
 

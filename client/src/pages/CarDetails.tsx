@@ -8,11 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Users, Fuel, Settings, Luggage, Gauge, Droplets, Calendar, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { ArrowLeft, Users, Fuel, Settings, Luggage, Gauge, Droplets, Calendar as CalendarIcon, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
 import dayjs, { Dayjs } from 'dayjs';
+import type { DateRange } from 'react-day-picker';
 import carsDataRaw from '@/data/cars.json';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -24,8 +23,7 @@ export default function CarDetails() {
   const car = useMemo(() => carsData.find(c => c.id === params?.id), [params]);
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [pickupDate, setPickupDate] = useState<Dayjs | null>(null);
-  const [returnDate, setReturnDate] = useState<Dayjs | null>(null);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [pickupLocation, setPickupLocation] = useState('hammamet');
   const [returnLocation, setReturnLocation] = useState('hammamet');
   const [addOns, setAddOns] = useState<string[]>([]);
@@ -38,9 +36,9 @@ export default function CarDetails() {
   };
 
   const calculateTotal = () => {
-    if (!car || !pickupDate || !returnDate) return 0;
+    if (!car || !dateRange?.from || !dateRange?.to) return 0;
     
-    const days = Math.max(1, returnDate.diff(pickupDate, 'day') + 1);
+    const days = Math.max(1, dayjs(dateRange.to).diff(dayjs(dateRange.from), 'day') + 1);
     const basePrice = car.discount ? car.price * (1 - car.discount / 100) : car.price;
     let total = basePrice * days;
     
@@ -248,73 +246,18 @@ export default function CarDetails() {
               <div className="space-y-4 mb-6">
                 <div>
                   <Label className="mb-3 block">
-                    <Calendar className="w-4 h-4 inline mr-2" />
-                    {t('carDetails.pickupDate')}
+                    <CalendarIcon className="w-4 h-4 inline mr-2" />
+                    {t('carDetails.pickupDate')} - {t('carDetails.returnDate')}
                   </Label>
-                  <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-pickup-date">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateCalendar
-                        value={pickupDate}
-                        onChange={(newValue) => setPickupDate(newValue)}
-                        minDate={dayjs()}
-                        sx={{
-                          width: '100%',
-                          '& .MuiPickersCalendarHeader-root': {
-                            paddingTop: '8px',
-                          },
-                          '& .MuiPickersDay-root': {
-                            '&.Mui-selected': {
-                              backgroundColor: '#f6b21b',
-                              '&:hover': {
-                                backgroundColor: '#c48e15',
-                              },
-                            },
-                            '&:hover': {
-                              backgroundColor: '#fef3cf',
-                            },
-                          },
-                          '& .MuiPickersDay-today': {
-                            border: '1px solid #f6b21b',
-                          },
-                        }}
-                      />
-                    </LocalizationProvider>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="mb-3 block">
-                    <Calendar className="w-4 h-4 inline mr-2" />
-                    {t('carDetails.returnDate')}
-                  </Label>
-                  <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-return-date">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateCalendar
-                        value={returnDate}
-                        onChange={(newValue) => setReturnDate(newValue)}
-                        minDate={pickupDate || dayjs()}
-                        sx={{
-                          width: '100%',
-                          '& .MuiPickersCalendarHeader-root': {
-                            paddingTop: '8px',
-                          },
-                          '& .MuiPickersDay-root': {
-                            '&.Mui-selected': {
-                              backgroundColor: '#f6b21b',
-                              '&:hover': {
-                                backgroundColor: '#c48e15',
-                              },
-                            },
-                            '&:hover': {
-                              backgroundColor: '#fef3cf',
-                            },
-                          },
-                          '& .MuiPickersDay-today': {
-                            border: '1px solid #f6b21b',
-                          },
-                        }}
-                      />
-                    </LocalizationProvider>
+                  <div className="border-2 border-gray-200 rounded-lg overflow-hidden" data-testid="input-date-range">
+                    <Calendar
+                      mode="range"
+                      selected={dateRange}
+                      onSelect={setDateRange}
+                      disabled={(date: Date) => date < new Date()}
+                      numberOfMonths={1}
+                      className="rounded-lg"
+                    />
                   </div>
                 </div>
 
@@ -411,7 +354,7 @@ export default function CarDetails() {
                 </div>
               </div>
 
-              {pickupDate && returnDate && (
+              {dateRange?.from && dateRange?.to && (
                 <div className="bg-brand-50 rounded-lg p-4 mb-6">
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">{t('carDetails.totalPrice')}</span>
@@ -426,15 +369,15 @@ export default function CarDetails() {
                 className="w-full" 
                 size="lg" 
                 data-testid="button-book-now-car"
-                disabled={!pickupDate || !returnDate}
+                disabled={!dateRange?.from || !dateRange?.to}
                 onClick={() => {
-                  if (!pickupDate || !returnDate) return;
+                  if (!dateRange?.from || !dateRange?.to) return;
                   
                   const params = new URLSearchParams({
                     type: 'car',
                     carId: car.id,
-                    pickupDate: pickupDate.format('YYYY-MM-DD'),
-                    returnDate: returnDate.format('YYYY-MM-DD'),
+                    pickupDate: dayjs(dateRange.from).format('YYYY-MM-DD'),
+                    returnDate: dayjs(dateRange.to).format('YYYY-MM-DD'),
                     pickupLocation,
                     returnLocation,
                     addOns: addOns.join(','),

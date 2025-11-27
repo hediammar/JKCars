@@ -48,6 +48,7 @@ export interface Excursion {
   image: string;
   duration: 'Half Day' | 'Full Day' | 'Multi-Day';
   price: number;
+  price3?: number;
   highlights: string[];
   included: string[];
 }

@@ -13,24 +13,59 @@ import carsDataRaw from '@/data/cars.json';
 import excursionsDataRaw from '@/data/excursions.json';
 import { Car as CarType } from '@shared/schema';
 import { Excursion } from '@shared/schema';
+import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { 
+  createCarReservation, 
+  createExcursionReservation, 
+  createAirportTransferReservation,
+  PaymentMethod,
+  ReservationStatus
+} from '@/lib/reservations';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const carsData = carsDataRaw as CarType[];
 const excursionsData = excursionsDataRaw as Excursion[];
 
+// Country codes for phone numbers with flags
+const countryCodes = [
+  { code: '+216', country: 'Tunisia', flag: '🇹🇳' },
+  { code: '+33', country: 'France', flag: '🇫🇷' },
+  { code: '+1', country: 'USA/Canada', flag: '🇺🇸' },
+  { code: '+44', country: 'UK', flag: '🇬🇧' },
+  { code: '+49', country: 'Germany', flag: '🇩🇪' },
+  { code: '+39', country: 'Italy', flag: '🇮🇹' },
+  { code: '+34', country: 'Spain', flag: '🇪🇸' },
+  { code: '+213', country: 'Algeria', flag: '🇩🇿' },
+  { code: '+212', country: 'Morocco', flag: '🇲🇦' },
+  { code: '+20', country: 'Egypt', flag: '🇪🇬' },
+  { code: '+971', country: 'UAE', flag: '🇦🇪' },
+  { code: '+966', country: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: '+90', country: 'Turkey', flag: '🇹🇷' },
+  { code: '+32', country: 'Belgium', flag: '🇧🇪' },
+  { code: '+41', country: 'Switzerland', flag: '🇨🇭' },
+];
+
 export default function Booking() {
   const [location] = useLocation();
+  const { toast } = useToast();
+  const { t } = useLanguage();
   const [step, setStep] = useState(1);
   const [bookingId, setBookingId] = useState('');
   const [searchParams, setSearchParams] = useState(window.location.search);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
+  const [phonePrefix, setPhonePrefix] = useState('+216');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [nationality, setNationality] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState<string>('');
+  const [idType, setIdType] = useState<'id' | 'passport'>('id');
+  const [idNumber, setIdNumber] = useState('');
   const [driverLicense, setDriverLicense] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'agency'>('agency');
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('agency');
 
   // Update search params when location changes
   useEffect(() => {
@@ -136,11 +171,108 @@ export default function Booking() {
     }
   };
 
-  const handleSubmit = () => {
-    const id = 'TND' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    setBookingId(id);
-    setStep(4);
-    console.log('Booking completed:', { id, customerName, customerEmail, totalPrice });
+  const handleSubmit = async () => {
+    if (!bookingData) {
+      return;
+    }
+
+    if (!customerName || !customerEmail || !phoneNumber || !nationality || !dateOfBirth || !idNumber) {
+      const message = t('booking.missingDetails') || 'Please complete all required information before confirming.';
+      setSubmissionError(message);
+      toast({
+        title: t('booking.missingDetails') || 'Missing details',
+        description: message,
+        variant: 'destructive',
+      });
+      setStep(2);
+      return;
+    }
+
+    const status: ReservationStatus = paymentMethod === 'card' ? 'confirmed' : 'pending';
+    const referenceCode = 'TND' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+    setIsSubmitting(true);
+    setSubmissionError(null);
+
+    try {
+      let savedReference = referenceCode;
+
+      if (bookingData.type === 'car' && bookingData.car && bookingData.pickupDate) {
+        const reservation = await createCarReservation({
+          reference_code: referenceCode,
+          car_id: bookingData.car.id,
+          car_name: `${bookingData.car.name} ${bookingData.car.model}`,
+          pickup_date: bookingData.pickupDate,
+          return_date: bookingData.returnDate || null,
+          pickup_location: bookingData.pickupLocation || '',
+          return_location: bookingData.returnLocation || null,
+          add_ons: bookingData.addOns ?? [],
+          total_price: totalPrice,
+          customer_name: customerName,
+          customer_email: customerEmail,
+          customer_phone: `${phonePrefix}${phoneNumber}`,
+          driver_license: driverLicense || null,
+          payment_method: paymentMethod,
+          status,
+        });
+        savedReference = reservation.reference_code ?? reservation.id;
+      } else if (bookingData.type === 'excursion' && bookingData.excursion && bookingData.date) {
+        const reservation = await createExcursionReservation({
+          reference_code: referenceCode,
+          excursion_id: bookingData.excursion.id,
+          excursion_title: bookingData.excursion.title,
+          date: bookingData.date,
+          persons: bookingData.persons,
+          car_type: bookingData.carType,
+          add_ons: bookingData.addOns ?? [],
+          total_price: totalPrice,
+          customer_name: customerName,
+          customer_email: customerEmail,
+          customer_phone: `${phonePrefix}${phoneNumber}`,
+          payment_method: paymentMethod,
+          status,
+        });
+        savedReference = reservation.reference_code ?? reservation.id;
+      } else if (bookingData.type === 'airport-transfer' && bookingData.date) {
+        const reservation = await createAirportTransferReservation({
+          reference_code: referenceCode,
+          airport: bookingData.airport || 'tunis-carthage',
+          pickup_location: bookingData.pickupLocation || '',
+          date: bookingData.date,
+          time: bookingData.time || '',
+          passengers: bookingData.passengers || 1,
+          car_preference: bookingData.carPreference || 'sedan',
+          total_price: totalPrice,
+          customer_name: customerName,
+          customer_email: customerEmail,
+          customer_phone: `${phonePrefix}${phoneNumber}`,
+          payment_method: paymentMethod,
+          status,
+        });
+        savedReference = reservation.reference_code ?? reservation.id;
+      } else {
+        throw new Error('Booking data is incomplete. Please restart your reservation.');
+      }
+
+      setBookingId(savedReference);
+      setStep(4);
+      toast({
+        title: 'Booking confirmed',
+        description: `Reservation saved with reference ${savedReference}`,
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Unable to confirm your booking. Please try again.';
+      setSubmissionError(message);
+      toast({
+        title: 'Booking failed',
+        description: message,
+        variant: 'destructive',
+      });
+      console.error('Booking error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const carTypeLabels = {
@@ -214,7 +346,7 @@ export default function Booking() {
     const customerData = [
       ['Full Name:', customerName],
       ['Email:', customerEmail],
-      ['Phone:', customerPhone],
+      ['Phone:', `${phonePrefix}${phoneNumber}`],
     ];
 
     if (bookingData.type === 'car' && driverLicense) {
@@ -386,10 +518,10 @@ export default function Booking() {
   };
 
   const steps = [
-    { number: 1, title: bookingData?.type === 'car' ? 'Car Info' : bookingData?.type === 'excursion' ? 'Excursion Info' : 'Transfer Info', icon: Car },
-    { number: 2, title: 'Your Details', icon: User },
-    { number: 3, title: 'Payment', icon: CreditCard },
-    { number: 4, title: 'Confirmation', icon: CheckCircle2 },
+    { number: 1, title: bookingData?.type === 'car' ? t('booking.carInfo') : bookingData?.type === 'excursion' ? t('booking.excursionInfo') : t('booking.transferInfo'), icon: Car },
+    { number: 2, title: t('booking.yourDetails'), icon: User },
+    { number: 3, title: t('booking.payment'), icon: CreditCard },
+    { number: 4, title: t('booking.confirmation'), icon: CheckCircle2 },
   ];
 
   const progress = (step / 4) * 100;
@@ -431,7 +563,7 @@ export default function Booking() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Complete Your Booking
+            {t('booking.completeBooking')}
           </h1>
         </motion.div>
 
@@ -477,7 +609,7 @@ export default function Booking() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-bold mb-4">Booking Summary</h2>
+                <h2 className="text-2xl font-bold mb-4">{t('booking.bookingSummary')}</h2>
                 <div className="bg-brand-50 rounded-lg p-6">
                   {bookingData.type === 'car' && bookingData.car && (
                     <>
@@ -661,7 +793,7 @@ export default function Booking() {
                   )}
                 </div>
                 <Button onClick={handleNextStep} className="w-full" size="lg" data-testid="button-next-step-1">
-                  Continue to Details
+                  {t('booking.continueToDetails')}
                 </Button>
               </motion.div>
             )}
@@ -674,10 +806,10 @@ export default function Booking() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-bold mb-4">Your Details</h2>
+                <h2 className="text-2xl font-bold mb-4">{t('booking.yourDetails')}</h2>
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="customerName">Full Name</Label>
+                    <Label htmlFor="customerName">{t('booking.fullName')}</Label>
                     <Input
                       id="customerName"
                       value={customerName}
@@ -688,7 +820,7 @@ export default function Booking() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="customerEmail">Email Address</Label>
+                    <Label htmlFor="customerEmail">{t('booking.email')}</Label>
                     <Input
                       id="customerEmail"
                       type="email"
@@ -699,21 +831,106 @@ export default function Booking() {
                       data-testid="input-customer-email"
                     />
                   </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <Label htmlFor="phonePrefix">{t('booking.phonePrefix')}</Label>
+                      <Select value={phonePrefix} onValueChange={setPhonePrefix}>
+                        <SelectTrigger id="phonePrefix" data-testid="select-phone-prefix" className="w-full">
+                          <SelectValue placeholder={t('booking.phonePrefix')}>
+                            {(() => {
+                              const selected = countryCodes.find(cc => cc.code === phonePrefix);
+                              if (selected) {
+                                return (
+                                  <div className="flex items-center gap-2">
+                                    <span>{selected.flag}</span>
+                                    <span>{selected.code}</span>
+                                  </div>
+                                );
+                              }
+                              return phonePrefix;
+                            })()}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent className="max-h-[300px] z-[100]">
+                          {countryCodes.map((cc) => (
+                            <SelectItem key={cc.code} value={cc.code} className="cursor-pointer">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">{cc.flag}</span>
+                                <span className="font-medium">{cc.code}</span>
+                                <span className="text-muted-foreground text-sm ml-1">({cc.country})</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="col-span-2">
+                      <Label htmlFor="phoneNumber">{t('booking.phoneNumber')}</Label>
+                      <Input
+                        id="phoneNumber"
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
+                        placeholder="50123456"
+                        required
+                        data-testid="input-phone-number"
+                      />
+                    </div>
+                  </div>
                   <div>
-                    <Label htmlFor="customerPhone">Phone Number</Label>
+                    <Label htmlFor="nationality">{t('booking.nationality')}</Label>
                     <Input
-                      id="customerPhone"
-                      type="tel"
-                      value={customerPhone}
-                      onChange={(e) => setCustomerPhone(e.target.value)}
-                      placeholder="+216 50 123 456"
+                      id="nationality"
+                      value={nationality}
+                      onChange={(e) => setNationality(e.target.value)}
+                      placeholder="Tunisian"
                       required
-                      data-testid="input-customer-phone"
+                      data-testid="input-nationality"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="dateOfBirth">{t('booking.dateOfBirth')}</Label>
+                    <Input
+                      id="dateOfBirth"
+                      type="date"
+                      value={dateOfBirth}
+                      onChange={(e) => setDateOfBirth(e.target.value)}
+                      max={new Date().toISOString().split('T')[0]}
+                      min="1900-01-01"
+                      required
+                      data-testid="input-date-of-birth"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <Label>{t('booking.idType')}</Label>
+                    <RadioGroup value={idType} onValueChange={(value) => setIdType(value as 'id' | 'passport')}>
+                      <div className="flex gap-4 mt-2">
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="id" id="id-card" />
+                          <Label htmlFor="id-card" className="cursor-pointer">{t('booking.idCard')}</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="passport" id="passport" />
+                          <Label htmlFor="passport" className="cursor-pointer">{t('booking.passport')}</Label>
+                        </div>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                  <div>
+                    <Label htmlFor="idNumber">{t('booking.idNumber')}</Label>
+                    <Input
+                      id="idNumber"
+                      value={idNumber}
+                      onChange={(e) => setIdNumber(e.target.value)}
+                      placeholder={idType === 'id' ? '12345678' : 'A1234567'}
+                      required
+                      data-testid="input-id-number"
                     />
                   </div>
                   {bookingData.type === 'car' && (
                     <div>
-                      <Label htmlFor="driverLicense">Driver's License Number</Label>
+                      <Label htmlFor="driverLicense">{t('booking.driverLicense')}</Label>
                       <Input
                         id="driverLicense"
                         value={driverLicense}
@@ -727,10 +944,10 @@ export default function Booking() {
                 </div>
                 <div className="flex gap-4">
                   <Button onClick={() => setStep(1)} variant="outline" className="flex-1" data-testid="button-back-step-2">
-                    Back
+                    {t('booking.back')}
                   </Button>
                   <Button onClick={handleNextStep} className="flex-1" data-testid="button-next-step-2">
-                    Continue to Payment
+                    {t('booking.continue')}
                   </Button>
                 </div>
               </motion.div>
@@ -744,141 +961,52 @@ export default function Booking() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-bold mb-4">Payment Information</h2>
+                <h2 className="text-2xl font-bold mb-4">{t('booking.paymentInfo')}</h2>
                 
-                {/* Payment Method Selection */}
-                <div className="space-y-4">
-                  <Label className="text-lg font-semibold">Select Payment Method</Label>
-                  <RadioGroup value={paymentMethod} onValueChange={(value) => setPaymentMethod(value as 'card' | 'agency')}>
-                    <div className="space-y-3">
-                      {/* Card Payment Option */}
-                      <Label 
-                        htmlFor="payment-card" 
-                        className="flex items-start space-x-3 p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                      >
-                        <RadioGroupItem value="card" id="payment-card" className="mt-1" />
-                        <div className="flex-1 flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <CreditCard className="w-5 h-5 text-brand-600" />
-                            <div>
-                              <div className="font-medium text-gray-900">Pay by Card</div>
-                              <div className="text-sm text-gray-600 mt-1">
-                                Secure online payment with credit or debit card
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Label>
-
-                      {/* Pay at Agency Option */}
-                      <Label 
-                        htmlFor="payment-agency" 
-                        className="flex items-start space-x-3 p-4 border-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                      >
-                        <RadioGroupItem value="agency" id="payment-agency" className="mt-1" />
-                        <div className="flex-1 flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <Building2 className="w-5 h-5 text-green-600" />
-                            <div>
-                              <div className="font-medium text-gray-900">Pay at Agency</div>
-                              <div className="text-sm text-gray-600 mt-1">
-                                Pay in cash or card when you pick up your vehicle
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-
-                {/* Card Payment Form - Only show if card is selected */}
-                {paymentMethod === 'card' && (
-                  <div className="space-y-4 pt-4 border-t">
-                    <div>
-                      <Label htmlFor="cardNumber">Card Number</Label>
-                      <Input
-                        id="cardNumber"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                        placeholder="5123 4567 8901 2346"
-                        maxLength={19}
-                        required={paymentMethod === 'card'}
-                        data-testid="input-card-number"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="cardExpiry">Expiry Date</Label>
-                        <Input
-                          id="cardExpiry"
-                          value={cardExpiry}
-                          onChange={(e) => setCardExpiry(e.target.value)}
-                          placeholder="MM/YY"
-                          maxLength={5}
-                          required={paymentMethod === 'card'}
-                          data-testid="input-card-expiry"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="cardCvv">CVV</Label>
-                        <Input
-                          id="cardCvv"
-                          type="password"
-                          value={cardCvv}
-                          onChange={(e) => setCardCvv(e.target.value)}
-                          placeholder="123"
-                          maxLength={3}
-                          required={paymentMethod === 'card'}
-                          data-testid="input-card-cvv"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
                 {/* Pay at Agency Information */}
-                {paymentMethod === 'agency' && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-6 space-y-3">
-                    <div className="flex items-start gap-3">
-                      <Building2 className="w-6 h-6 text-green-600 mt-0.5" />
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-2">Pay at Agency</h3>
-                        <p className="text-sm text-gray-700 mb-3">
-                          You will pay when you pick up your vehicle at our agency location.
-                        </p>
-                        <div className="space-y-2 text-sm text-gray-600">
-                          <p><span className="font-medium">Payment Methods:</span> Cash or Card</p>
-                          <p><span className="font-medium">Location:</span> Our agency office</p>
-                          <p><span className="font-medium">Note:</span> Please bring a valid ID and driver's license</p>
-                        </div>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Building2 className="w-6 h-6 text-green-600 mt-0.5" />
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-2">{t('booking.payAtAgency')}</h3>
+                      <p className="text-sm text-gray-700 mb-3">
+                        {t('booking.payAtAgencyDesc')}
+                      </p>
+                      <div className="space-y-2 text-sm text-gray-600">
+                        <p><span className="font-medium">{t('booking.paymentMethods')}:</span> {t('booking.cashOrCard')}</p>
+                        <p><span className="font-medium">{t('booking.location')}:</span> {t('booking.agencyOffice')}</p>
+                        <p><span className="font-medium">{t('booking.note')}:</span> {t('booking.bringValidId')}</p>
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
 
                 {/* Total Amount */}
                 <div className="bg-brand-50 rounded-lg p-4">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold">Total Amount</span>
+                    <span className="font-semibold">{t('booking.totalAmount')}</span>
                     <span className="text-2xl font-bold text-brand-600">{totalPrice}DT</span>
                   </div>
-                  {paymentMethod === 'agency' && (
-                    <p className="text-sm text-gray-600 mt-2">To be paid at pickup</p>
-                  )}
+                  <p className="text-sm text-gray-600 mt-2">{t('booking.toBePaidAtPickup')}</p>
                 </div>
+
+                {submissionError && (
+                  <div className="bg-red-50 border border-red-200 text-sm text-red-700 rounded-lg p-3">
+                    {submissionError}
+                  </div>
+                )}
 
                 <div className="flex gap-4">
                   <Button onClick={() => setStep(2)} variant="outline" className="flex-1" data-testid="button-back-step-3">
-                    Back
+                    {t('booking.back')}
                   </Button>
                   <Button 
                     onClick={handleSubmit} 
                     className="flex-1" 
                     data-testid="button-confirm-payment"
-                    disabled={paymentMethod === 'card' && (!cardNumber || !cardExpiry || !cardCvv)}
+                    disabled={isSubmitting}
                   >
-                    {paymentMethod === 'card' ? 'Confirm Payment' : 'Confirm Booking'}
+                    {isSubmitting ? t('booking.processing') : t('booking.confirmBooking')}
                   </Button>
                 </div>
               </motion.div>
@@ -900,38 +1028,27 @@ export default function Booking() {
                   <CheckCircle2 className="w-12 h-12 text-white" strokeWidth={2.5} />
                 </motion.div>
                 
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Booking Confirmed!</h2>
-                <p className="text-gray-600 mb-6">Your reservation has been successfully completed</p>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('booking.bookingConfirmed')}</h2>
+                <p className="text-gray-600 mb-6">{t('booking.bookingConfirmedDesc')}</p>
                 
                 <div className="bg-brand-50 rounded-lg p-6 mb-6 inline-block">
-                  <div className="text-sm text-gray-600 mb-1">Booking ID</div>
+                  <div className="text-sm text-gray-600 mb-1">{t('booking.bookingId')}</div>
                   <div className="text-3xl font-bold text-brand-600" data-testid="text-booking-id">{bookingId}</div>
                 </div>
                 
                 {/* Payment Method Info */}
                 <div className="bg-gray-50 rounded-lg p-4 mb-6 max-w-md mx-auto">
                   <div className="flex items-center justify-center gap-2 text-gray-700">
-                    {paymentMethod === 'card' ? (
-                      <>
-                        <CreditCard className="w-5 h-5 text-brand-600" />
-                        <span className="font-medium">Payment: Paid by Card</span>
-                      </>
-                    ) : (
-                      <>
-                        <Building2 className="w-5 h-5 text-green-600" />
-                        <span className="font-medium">Payment: Pay at Agency</span>
-                      </>
-                    )}
+                    <Building2 className="w-5 h-5 text-green-600" />
+                    <span className="font-medium">{t('booking.paymentPayAtAgency')}</span>
                   </div>
-                  {paymentMethod === 'agency' && (
-                    <p className="text-sm text-gray-600 mt-2 text-center">
-                      Please bring your ID and driver's license when picking up your vehicle
-                    </p>
-                  )}
+                  <p className="text-sm text-gray-600 mt-2 text-center">
+                    {t('booking.bringIdAndLicense')}
+                  </p>
                 </div>
                 
                 <p className="text-gray-600 mb-8">
-                  A confirmation email has been sent to <span className="font-semibold">{customerEmail}</span>
+                  {t('booking.confirmationEmail')} <span className="font-semibold">{customerEmail}</span>
                 </p>
                 
                 <div className="flex gap-4 justify-center">
@@ -942,10 +1059,10 @@ export default function Booking() {
                     data-testid="button-download-pdf"
                   >
                     <Download className="w-4 h-4" />
-                    Download PDF
+                    {t('booking.downloadPDF')}
                   </Button>
                   <Button onClick={() => window.location.href = '/'} data-testid="button-back-home">
-                    Back to Home
+                    {t('booking.backToHome')}
                   </Button>
                 </div>
               </motion.div>

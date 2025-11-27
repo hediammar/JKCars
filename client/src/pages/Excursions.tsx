@@ -38,10 +38,18 @@ export default function Excursions() {
     minivan: 35,
   };
 
+  const getGroupPrice = (excursion: Excursion, personsCount: number) => {
+    if (personsCount <= 3) return excursion.price;
+    if (personsCount >= 4 && personsCount <= 7) {
+      return excursion.price3 ?? excursion.price;
+    }
+    return excursion.price3 ?? excursion.price;
+  };
+
   const calculateTotal = () => {
     if (!selectedExcursion) return 0;
     
-    let total = selectedExcursion.price * persons;
+    let total = getGroupPrice(selectedExcursion, persons);
     total += carTypePrices[carType as keyof typeof carTypePrices];
     
     addOns.forEach(addon => {
@@ -131,10 +139,21 @@ export default function Excursions() {
                     id="persons"
                     type="number"
                     min="1"
+                    max="7"
                     value={persons}
-                    onChange={(e) => setPersons(parseInt(e.target.value) || 1)}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value, 10);
+                      if (isNaN(value)) {
+                        setPersons(1);
+                        return;
+                      }
+                      setPersons(Math.max(1, Math.min(7, value)));
+                    }}
                     data-testid="input-persons"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {t('excursions.smallGroupLabel')} / {t('excursions.largeGroupLabel')}
+                  </p>
                 </div>
               </div>
 
@@ -145,11 +164,28 @@ export default function Excursions() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="sedan">Sedan (+0DT)</SelectItem>
-                    <SelectItem value="suv">SUV (+20DT)</SelectItem>
-                    <SelectItem value="minivan">Minivan (+35DT)</SelectItem>
+                    <SelectItem value="sedan">{t('excursionDetails.vehicleSedan')}</SelectItem>
+                    <SelectItem value="suv">{t('excursionDetails.vehicleSUV')}</SelectItem>
+                    <SelectItem value="minivan">{t('excursionDetails.vehicleMinivan')}</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-brand-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-500 mb-1">{t('excursions.smallGroupLabel')}</div>
+                  <div className="text-2xl font-semibold">
+                    {selectedExcursion.price}DT
+                  </div>
+                  <div className="text-xs text-gray-500">{t('excursions.perGroup')}</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-500 mb-1">{t('excursions.largeGroupLabel')}</div>
+                  <div className="text-2xl font-semibold">
+                    {(selectedExcursion.price3 ?? selectedExcursion.price)}DT
+                  </div>
+                  <div className="text-xs text-gray-500">{t('excursions.perGroup')}</div>
+                </div>
               </div>
 
               <div>
