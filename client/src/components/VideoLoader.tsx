@@ -13,32 +13,20 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    // Ensure video is ready to play
-    const handleCanPlay = () => {
-      video.play().catch((error) => {
-        console.log("Autoplay prevented:", error);
-        // If autoplay fails, try playing on user interaction
-        const playOnInteraction = () => {
-          video.play();
-          document.removeEventListener("click", playOnInteraction);
-          document.removeEventListener("touchstart", playOnInteraction);
-        };
-        document.addEventListener("click", playOnInteraction);
-        document.addEventListener("touchstart", playOnInteraction);
-      });
-    };
+    // Set video properties for autoplay
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = false;
 
     const handleEnded = () => {
       setIsFading(true);
-      // Wait for fade animation to complete before hiding
       setTimeout(() => {
         setIsVisible(false);
         onVideoEnd();
-      }, 800); // Match fade-out duration
+      }, 800);
     };
 
     const handleError = () => {
-      // If video fails to load, skip the loader
       console.log("Video failed to load, skipping loader");
       setIsFading(true);
       setTimeout(() => {
@@ -47,15 +35,51 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       }, 300);
     };
 
+    // Function to attempt play
+    const attemptPlay = async () => {
+      try {
+        await video.play();
+      } catch (error) {
+        console.log("Autoplay prevented, will play on interaction");
+        // If autoplay fails, wait for user interaction
+        const playOnInteraction = () => {
+          video.play().catch(() => {
+            // If still fails, skip video
+            handleError();
+          });
+          document.removeEventListener("click", playOnInteraction);
+          document.removeEventListener("touchstart", playOnInteraction);
+          document.removeEventListener("keydown", playOnInteraction);
+        };
+        document.addEventListener("click", playOnInteraction, { once: true });
+        document.addEventListener("touchstart", playOnInteraction, { once: true });
+        document.addEventListener("keydown", playOnInteraction, { once: true });
+      }
+    };
+
+    // Handle when video can play
+    const handleCanPlay = () => {
+      attemptPlay();
+    };
+
+    // Handle when video is loaded enough
+    const handleLoadedData = () => {
+      attemptPlay();
+    };
+
+    // Add event listeners
     video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("ended", handleEnded);
     video.addEventListener("error", handleError);
 
-    // Try to play immediately
-    handleCanPlay();
+    // Try to load and play
+    video.load();
+    attemptPlay();
 
     return () => {
       video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("ended", handleEnded);
       video.removeEventListener("error", handleError);
     };
@@ -77,6 +101,9 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
         muted
         autoPlay
         preload="auto"
+        loop={false}
+        disablePictureInPicture
+        controls={false}
       >
         <source src="/assets/intro.mp4" type="video/mp4" />
         Your browser does not support the video tag.
