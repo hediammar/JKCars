@@ -11,8 +11,8 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import carsDataRaw from '@/data/cars.json';
 import excursionsDataRaw from '@/data/excursions.json';
-import { Car as CarType } from '@shared/schema';
-import { Excursion } from '@shared/schema';
+import { Car as CarType } from '@/types/schema';
+import { Excursion } from '@/types/schema';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { 

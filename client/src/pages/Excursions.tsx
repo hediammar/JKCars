@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ExcursionCard from '@/components/ExcursionCard';
-import { Excursion } from '@shared/schema';
+import { Excursion } from '@/types/schema';
 import {
   Dialog,
   DialogContent,

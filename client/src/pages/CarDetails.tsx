@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useRoute, Link } from 'wouter';
 import { motion } from 'framer-motion';
-import { Car } from '@shared/schema';
+import { Car } from '@/types/schema';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

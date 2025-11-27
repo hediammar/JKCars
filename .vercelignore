@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.env.local
+.env.*.local
+server
+shared
+drizzle.config.ts
+supabase_schema.sql
+replit.md
+design_guidelines.md
+*.log
+.DS_Store
+

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import Hero from '@/components/Hero';
 import CarCard from '@/components/CarCard';
 import FeatureCard from '@/components/FeatureCard';
-import { Car as CarType } from '@shared/schema';
+import { Car as CarType } from '@/types/schema';
 import { Car, Shield, HeadphonesIcon, Award, MapPin, Clock } from 'lucide-react';
 import carsDataRaw from '@/data/cars.json';
 import { useLanguage } from '@/contexts/LanguageContext';

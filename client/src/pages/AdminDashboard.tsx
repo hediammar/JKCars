@@ -18,7 +18,7 @@ import {
   type ReservationStatus,
 } from '@/lib/reservations';
 import carsDataRaw from '@/data/cars.json';
-import type { Car as CarType } from '@shared/schema';
+import type { Car as CarType } from '@/types/schema';
 import {
   CalendarDays,
   ShieldCheck,
