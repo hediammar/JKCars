@@ -22,15 +22,14 @@ export default function AirportTransfers() {
   const [carPreference, setCarPreference] = useState('sedan');
 
   const airportPrices = {
-    'tunis-carthage': 80,
-    'enfidha': 40,
-    'monastir': 30,
+    'tunis-carthage': 120,
+    'enfidha': 90,
+    'monastir': 160,
   };
 
   const carPrices = {
     sedan: 0,
-    suv: 15,
-    minivan: 25,
+    minivan: 50,
   };
 
   const calculateTotal = () => {
@@ -192,8 +191,7 @@ export default function AirportTransfers() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="sedan">Sedan (+0DT)</SelectItem>
-                      <SelectItem value="suv">SUV (+15DT)</SelectItem>
-                      <SelectItem value="minivan">Minivan (+25DT)</SelectItem>
+                      <SelectItem value="minivan">7 Seats (+50DT)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
