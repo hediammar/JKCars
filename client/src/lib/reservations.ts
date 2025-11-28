@@ -85,12 +85,28 @@ const handlePostgrestError = (error: PostgrestError | null) => {
 };
 
 export async function createCarReservation(payload: CarReservationInsert) {
+  // Ensure all required fields are present and valid
+  const insertData = {
+    reference_code: payload.reference_code,
+    car_id: payload.car_id,
+    car_name: payload.car_name,
+    pickup_date: payload.pickup_date,
+    return_date: payload.return_date ?? null,
+    pickup_location: payload.pickup_location || 'Tunis', // Default to Tunis if empty
+    return_location: payload.return_location ?? null,
+    add_ons: payload.add_ons || [],
+    total_price: payload.total_price,
+    customer_name: payload.customer_name,
+    customer_email: payload.customer_email,
+    customer_phone: payload.customer_phone,
+    driver_license: payload.driver_license ?? null,
+    payment_method: payload.payment_method,
+    status: payload.status ?? "pending",
+  };
+
   const { data, error } = await supabase
     .from("car_reservations")
-    .insert({
-      status: payload.status ?? "pending",
-      ...payload,
-    })
+    .insert(insertData)
     .select()
     .single();
 
