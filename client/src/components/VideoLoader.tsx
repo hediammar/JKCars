@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface VideoLoaderProps {
   onVideoEnd: () => void;
@@ -7,8 +8,9 @@ interface VideoLoaderProps {
 export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
   const [isFading, setIsFading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const isMobile = useIsMobile();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const playAttemptedRef = useRef(false);
+  const logoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleEnded = useCallback(() => {
     setIsFading(true);
@@ -18,140 +20,114 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
     }, 800);
   }, [onVideoEnd]);
 
+  // Mobile: Show logo intro
   useEffect(() => {
+    if (!isMobile) return;
+
+    // Show logo for 2.5 seconds, then fade out
+    logoTimeoutRef.current = setTimeout(() => {
+      handleEnded();
+    }, 2500);
+
+    return () => {
+      if (logoTimeoutRef.current) {
+        clearTimeout(logoTimeoutRef.current);
+      }
+    };
+  }, [isMobile, handleEnded]);
+
+  // Desktop: Play video normally (muted, autoplay)
+  useEffect(() => {
+    if (isMobile) return;
+
     const video = videoRef.current;
     if (!video) return;
 
-    // Set video properties for autoplay (critical for mobile)
+    // Set video properties for autoplay
     video.muted = true;
     video.playsInline = true;
     video.loop = false;
     video.preload = "auto";
-    video.setAttribute("webkit-playsinline", "true");
-    video.setAttribute("playsinline", "true");
-    video.setAttribute("x5-playsinline", "true"); // For Android browsers
-
-    const handleEnded = () => {
-      setIsFading(true);
-      setTimeout(() => {
-        setIsVisible(false);
-        onVideoEnd();
-      }, 800);
-    };
 
     const handleError = () => {
       console.log("Video failed to load, skipping loader");
-      setIsFading(true);
-      setTimeout(() => {
-        setIsVisible(false);
-        onVideoEnd();
-      }, 300);
+      handleEnded();
     };
 
-    // Aggressive play attempt function
-    const attemptPlay = async (retryCount = 0) => {
-      if (playAttemptedRef.current && retryCount === 0) return;
-      
+    // Try to play the video
+    const attemptPlay = async () => {
       try {
-        // Ensure video is still muted (some browsers reset this)
-        video.muted = true;
-        video.volume = 0;
-        
-        const playPromise = video.play();
-        
-        if (playPromise !== undefined) {
-          await playPromise;
-          playAttemptedRef.current = true;
-          console.log("Video playing successfully");
-        }
+        await video.play();
       } catch (error) {
-        console.log("Autoplay attempt failed:", error);
-        
-        // Retry up to 3 times with increasing delays
-        if (retryCount < 3) {
-          setTimeout(() => {
-            attemptPlay(retryCount + 1);
-          }, 200 * (retryCount + 1));
-        } else {
-          // If all retries fail, try one more time after a short delay
-          // This handles cases where the video needs more time to load
-          setTimeout(() => {
-            if (!playAttemptedRef.current) {
-              attemptPlay(0);
-            }
-          }, 500);
-        }
+        console.log("Autoplay prevented, trying again...", error);
+        // Retry after a short delay
+        setTimeout(() => {
+          attemptPlay();
+        }, 100);
       }
     };
 
-    // Handle when video can play
     const handleCanPlay = () => {
       attemptPlay();
     };
 
-    // Handle when video is loaded enough
     const handleLoadedData = () => {
       attemptPlay();
     };
 
-    // Handle when video metadata is loaded
-    const handleLoadedMetadata = () => {
-      attemptPlay();
-    };
-
-    // Handle when video can start playing
-    const handleCanPlayThrough = () => {
-      attemptPlay();
-    };
-
-    // Add event listeners
     video.addEventListener("canplay", handleCanPlay);
-    video.addEventListener("canplaythrough", handleCanPlayThrough);
     video.addEventListener("loadeddata", handleLoadedData);
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
     video.addEventListener("ended", handleEnded);
     video.addEventListener("error", handleError);
 
-    // Force load the video
+    // Load and try to play
     video.load();
-    
-    // Try to play immediately
     attemptPlay();
 
-    // Also try after a small delay (helps with mobile browsers)
-    const timeoutId = setTimeout(() => {
-      attemptPlay();
-    }, 100);
-
-    // Fallback: try to play on any user interaction (as last resort)
-    const handleUserInteraction = () => {
-      if (!playAttemptedRef.current) {
-        attemptPlay();
-      }
-    };
-
-    // Add touch/click listeners as fallback (will be removed after first play)
-    const events = ["touchstart", "touchend", "click", "mousedown"];
-    events.forEach((event) => {
-      document.addEventListener(event, handleUserInteraction, { once: true, passive: true });
-    });
-
     return () => {
-      clearTimeout(timeoutId);
       video.removeEventListener("canplay", handleCanPlay);
-      video.removeEventListener("canplaythrough", handleCanPlayThrough);
       video.removeEventListener("loadeddata", handleLoadedData);
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       video.removeEventListener("ended", handleEnded);
       video.removeEventListener("error", handleError);
-      events.forEach((event) => {
-        document.removeEventListener(event, handleUserInteraction);
-      });
     };
-  }, [onVideoEnd]);
+  }, [isMobile, handleEnded]);
 
   if (!isVisible) return null;
 
+  // Mobile: Show logo intro
+  if (isMobile) {
+    return (
+      <div
+        className={`fixed inset-0 z-[9999] bg-black flex items-center justify-center transition-opacity duration-800 ease-in-out ${
+          isFading ? "opacity-0" : "opacity-100"
+        }`}
+        style={{ transitionDuration: "800ms" }}
+      >
+        <img
+          src="/assets/Jkcar.png"
+          alt="JK Car"
+          className="max-w-[80%] max-h-[80%] object-contain animate-pulse"
+          style={{
+            animation: "fadeInScale 0.8s ease-out, pulse 2s ease-in-out infinite",
+          }}
+        />
+        <style>{`
+          @keyframes fadeInScale {
+            from {
+              opacity: 0;
+              transform: scale(0.9);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Desktop: Play video normally
   return (
     <div
       className={`fixed inset-0 z-[9999] bg-black transition-opacity duration-800 ease-in-out ${
@@ -162,9 +138,9 @@ export default function VideoLoader({ onVideoEnd }: VideoLoaderProps) {
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
-        playsInline
         muted
         autoPlay
+        playsInline
         preload="auto"
         loop={false}
         disablePictureInPicture
