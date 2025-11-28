@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Car, MapPin, Calendar, Search, X, Plane } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Search, X, Plane } from 'lucide-react';
 import { format, differenceInDays } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
@@ -200,16 +200,16 @@ export default function Hero() {
       {/* Spacer for navbar (64px = 4rem) */}
       <div className="h-16 flex-shrink-0" />
 
-      {/* Content container - centers content in remaining space */}
-      <div className="relative z-10 flex-1 flex items-center justify-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left side - Title and Subtitle */}
+      {/* Content container - optimized for mobile */}
+      <div className="relative z-10 flex-1 flex items-start md:items-center justify-center overflow-y-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-4 md:py-12 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-12 items-center">
+            {/* Left side - Title and Subtitle (hidden on mobile to save space) */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-left"
+              className="text-left hidden lg:block"
             >
               <motion.h1
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight drop-shadow-lg"
@@ -230,6 +230,21 @@ export default function Hero() {
               </motion.p>
             </motion.div>
 
+            {/* Mobile: Compact title above form */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center lg:hidden mb-2"
+            >
+              <h1 className="text-3xl font-bold text-white mb-2 tracking-tight drop-shadow-lg">
+                {t('hero.title')}
+              </h1>
+              <p className="text-sm text-white/90 drop-shadow-md px-2">
+                {t('hero.subtitle')}
+              </p>
+            </motion.div>
+
             {/* Right side - Search Form */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
@@ -237,11 +252,11 @@ export default function Hero() {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="w-full"
             >
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-6 md:p-8 lg:p-10">
-            <div className="space-y-6 md:space-y-8">
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-2xl border border-white/20 p-4 sm:p-6 md:p-8 lg:p-10 max-h-[calc(100vh-8rem)] md:max-h-none overflow-y-auto">
+            <div className="space-y-4 md:space-y-6 lg:space-y-8">
               {/* Pickup & Return Location */}
               <div>
-                <label className="text-sm font-semibold text-gray-800 mb-3 block">
+                <label className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 md:mb-3 block">
                   {t('hero.pickupReturn')}
                 </label>
                 <div className="relative" ref={pickupContainerRef}>
@@ -267,7 +282,7 @@ export default function Hero() {
                       }
                     }}
                     onKeyDown={handlePickupKeyDown}
-                    className="pl-10 h-12 text-base border-gray-200 focus:border-brand-500 focus:ring-brand-500"
+                    className="pl-10 h-11 md:h-12 text-sm md:text-base border-gray-200 focus:border-brand-500 focus:ring-brand-500"
                   />
                   {showPickupSuggestions && filteredPickupLocations.length > 0 && (
                     <div
@@ -334,7 +349,7 @@ export default function Hero() {
                         }
                       }}
                       onKeyDown={handleReturnKeyDown}
-                      className="pl-10 h-12 text-base border-gray-200 focus:border-brand-500 focus:ring-brand-500"
+                      className="pl-10 h-11 md:h-12 text-sm md:text-base border-gray-200 focus:border-brand-500 focus:ring-brand-500"
                     />
                     <button
                       onClick={() => {
@@ -383,18 +398,18 @@ export default function Hero() {
               </div>
 
               {/* Dates and Times */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
                 <div>
-                  <label className="text-sm font-semibold text-gray-800 mb-3 block">
+                  <label className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 md:mb-3 block">
                     {t('hero.pickupDate')}
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 border-gray-200 hover:border-brand-500 hover:bg-brand-50/50 transition-colors",
+                            "w-full justify-start text-left font-normal h-11 md:h-12 text-sm md:text-base border-gray-200 hover:border-brand-500 hover:bg-brand-50/50 transition-colors",
                             !pickupDate && "text-muted-foreground"
                           )}
                         >
@@ -412,7 +427,7 @@ export default function Hero() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <div className="border border-gray-200 rounded-lg p-1 w-48 h-12 flex items-center justify-center overflow-hidden hover:border-brand-500 transition-colors bg-white">
+                    <div className="border border-gray-200 rounded-lg p-1 w-full sm:w-32 md:w-48 h-11 md:h-12 flex items-center justify-center overflow-hidden hover:border-brand-500 transition-colors bg-white">
                       <TimePicker
                         value={pickupTime || { hour: '12', minute: '00' }}
                         onChange={(newTime) => setPickupTime(newTime)}
@@ -423,16 +438,16 @@ export default function Hero() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-gray-800 mb-3 block">
+                  <label className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 md:mb-3 block">
                     {t('hero.returnDate')}
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 border-gray-200 hover:border-brand-500 hover:bg-brand-50/50 transition-colors",
+                            "w-full justify-start text-left font-normal h-11 md:h-12 text-sm md:text-base border-gray-200 hover:border-brand-500 hover:bg-brand-50/50 transition-colors",
                             !returnDate && "text-muted-foreground"
                           )}
                         >
@@ -452,7 +467,7 @@ export default function Hero() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <div className="border border-gray-200 rounded-lg p-1 w-48 h-12 flex items-center justify-center overflow-hidden hover:border-brand-500 transition-colors bg-white">
+                    <div className="border border-gray-200 rounded-lg p-1 w-full sm:w-32 md:w-48 h-11 md:h-12 flex items-center justify-center overflow-hidden hover:border-brand-500 transition-colors bg-white">
                       <TimePicker
                         value={returnTime || { hour: '12', minute: '00' }}
                         onChange={(newTime) => setReturnTime(newTime)}
@@ -467,11 +482,11 @@ export default function Hero() {
               <Button
                 onClick={handleSearch}
                 size="lg"
-                className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                className="w-full h-12 md:h-14 text-base md:text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                 disabled={!pickupLocation || !pickupDate || !returnDate}
               >
                 {t('common.search')}
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
               </Button>
             </div>
           </div>
@@ -480,8 +495,9 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Scroll indicator - hidden on mobile to save space */}
       <motion.div
-        className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-10"
+        className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-10 hidden md:block"
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
       >
