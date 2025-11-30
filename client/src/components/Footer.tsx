@@ -32,6 +32,7 @@ export default function Footer() {
               <li><Link href="/airport-transfers" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-airport">Airport Transfers</Link></li>
               <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-about">About Us</Link></li>
               <li><Link href="/contact" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</Link></li>
+              <li><Link href="/admin" className="text-gray-300 hover:text-white transition-colors" data-testid="link-footer-admin">Administration</Link></li>
             </ul>
           </div>
 

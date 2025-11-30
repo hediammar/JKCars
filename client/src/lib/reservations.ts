@@ -161,3 +161,39 @@ export async function fetchAdminReservations(): Promise<AdminReservationsPayload
   };
 }
 
+export async function updateCarReservationStatus(id: string, status: ReservationStatus) {
+  const { data, error } = await supabase
+    .from("car_reservations")
+    .update({ status })
+    .eq("id", id)
+    .select()
+    .single();
+
+  handlePostgrestError(error);
+  return data as CarReservationRow;
+}
+
+export async function updateExcursionReservationStatus(id: string, status: ReservationStatus) {
+  const { data, error } = await supabase
+    .from("excursion_reservations")
+    .update({ status })
+    .eq("id", id)
+    .select()
+    .single();
+
+  handlePostgrestError(error);
+  return data as ExcursionReservationRow;
+}
+
+export async function updateAirportReservationStatus(id: string, status: ReservationStatus) {
+  const { data, error } = await supabase
+    .from("airport_reservations")
+    .update({ status })
+    .eq("id", id)
+    .select()
+    .single();
+
+  handlePostgrestError(error);
+  return data as AirportTransferReservationRow;
+}
+
