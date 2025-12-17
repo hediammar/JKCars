@@ -188,7 +188,11 @@ export default function Booking() {
       return;
     }
 
-    const status: ReservationStatus = paymentMethod === 'card' ? 'confirmed' : 'pending';
+    // Car reservations always start as 'pending' - admin must confirm
+    // Other reservation types can be confirmed immediately if paid by card
+    const status: ReservationStatus = bookingData.type === 'car' 
+      ? 'pending' 
+      : (paymentMethod === 'card' ? 'confirmed' : 'pending');
     const referenceCode = 'TND' + Math.random().toString(36).substr(2, 9).toUpperCase();
 
     setIsSubmitting(true);
@@ -256,9 +260,14 @@ export default function Booking() {
 
       setBookingId(savedReference);
       setStep(4);
+      const toastMessage = bookingData.type === 'car'
+        ? t('booking.bookingSubmitted') || `Reservation submitted with reference ${savedReference}. Waiting for admin confirmation.`
+        : t('booking.bookingConfirmed') || `Reservation saved with reference ${savedReference}`;
       toast({
-        title: 'Booking confirmed',
-        description: `Reservation saved with reference ${savedReference}`,
+        title: bookingData.type === 'car' 
+          ? (t('booking.bookingSubmittedTitle') || 'Booking Submitted')
+          : (t('booking.bookingConfirmed') || 'Booking confirmed'),
+        description: toastMessage,
       });
     } catch (error) {
       const message =
@@ -1019,52 +1028,117 @@ export default function Booking() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-8"
               >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.2, type: 'spring' }}
-                  className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-green-600 mb-6 shadow-2xl shadow-green-500/30"
-                >
-                  <CheckCircle2 className="w-12 h-12 text-white" strokeWidth={2.5} />
-                </motion.div>
-                
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('booking.bookingConfirmed')}</h2>
-                <p className="text-gray-600 mb-6">{t('booking.bookingConfirmedDesc')}</p>
-                
-                <div className="bg-brand-50 rounded-lg p-6 mb-6 inline-block">
-                  <div className="text-sm text-gray-600 mb-1">{t('booking.bookingId')}</div>
-                  <div className="text-3xl font-bold text-brand-600" data-testid="text-booking-id">{bookingId}</div>
-                </div>
-                
-                {/* Payment Method Info */}
-                <div className="bg-gray-50 rounded-lg p-4 mb-6 max-w-md mx-auto">
-                  <div className="flex items-center justify-center gap-2 text-gray-700">
-                    <Building2 className="w-5 h-5 text-green-600" />
-                    <span className="font-medium">{t('booking.paymentPayAtAgency')}</span>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-2 text-center">
-                    {t('booking.bringIdAndLicense')}
-                  </p>
-                </div>
-                
-                <p className="text-gray-600 mb-8">
-                  {t('booking.confirmationEmail')} <span className="font-semibold">{customerEmail}</span>
-                </p>
-                
-                <div className="flex gap-4 justify-center">
-                  <Button 
-                    variant="outline" 
-                    className="gap-2" 
-                    onClick={generatePDF}
-                    data-testid="button-download-pdf"
-                  >
-                    <Download className="w-4 h-4" />
-                    {t('booking.downloadPDF')}
-                  </Button>
-                  <Button onClick={() => window.location.href = '/'} data-testid="button-back-home">
-                    {t('booking.backToHome')}
-                  </Button>
-                </div>
+                {bookingData.type === 'car' ? (
+                  // Pending confirmation for car reservations
+                  <>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: 'spring' }}
+                      className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 mb-6 shadow-2xl shadow-yellow-500/30"
+                    >
+                      <CheckCircle2 className="w-12 h-12 text-white" strokeWidth={2.5} />
+                    </motion.div>
+                    
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('booking.bookingSubmittedTitle')}</h2>
+                    <p className="text-gray-600 mb-6">{t('booking.bookingSubmittedDesc')}</p>
+                    
+                    <div className="bg-brand-50 rounded-lg p-6 mb-6 inline-block">
+                      <div className="text-sm text-gray-600 mb-1">{t('booking.bookingId')}</div>
+                      <div className="text-3xl font-bold text-brand-600" data-testid="text-booking-id">{bookingId}</div>
+                    </div>
+                    
+                    {/* Pending Status Info */}
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6 max-w-md mx-auto">
+                      <div className="flex items-center justify-center gap-2 text-yellow-800 mb-2">
+                        <Building2 className="w-5 h-5 text-yellow-600" />
+                        <span className="font-semibold">{t('booking.pendingAdminConfirmation')}</span>
+                      </div>
+                      <p className="text-sm text-yellow-700 text-center mb-3">
+                        {t('booking.pendingAdminConfirmationDesc')}
+                      </p>
+                      <p className="text-sm text-yellow-700 text-center">
+                        {t('booking.confirmationEmailPending')} <span className="font-semibold">{customerEmail}</span>
+                      </p>
+                    </div>
+                    
+                    {/* Payment Method Info */}
+                    <div className="bg-gray-50 rounded-lg p-4 mb-6 max-w-md mx-auto">
+                      <div className="flex items-center justify-center gap-2 text-gray-700">
+                        <Building2 className="w-5 h-5 text-green-600" />
+                        <span className="font-medium">{t('booking.paymentPayAtAgency')}</span>
+                      </div>
+                      <p className="text-sm text-gray-600 mt-2 text-center">
+                        {t('booking.bringIdAndLicense')}
+                      </p>
+                    </div>
+                    
+                    <div className="flex gap-4 justify-center">
+                      <Button 
+                        variant="outline" 
+                        className="gap-2" 
+                        onClick={generatePDF}
+                        data-testid="button-download-pdf"
+                      >
+                        <Download className="w-4 h-4" />
+                        {t('booking.downloadPDF')}
+                      </Button>
+                      <Button onClick={() => window.location.href = '/'} data-testid="button-back-home">
+                        {t('booking.backToHome')}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  // Confirmed for other reservation types
+                  <>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: 'spring' }}
+                      className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-green-600 mb-6 shadow-2xl shadow-green-500/30"
+                    >
+                      <CheckCircle2 className="w-12 h-12 text-white" strokeWidth={2.5} />
+                    </motion.div>
+                    
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('booking.bookingConfirmed')}</h2>
+                    <p className="text-gray-600 mb-6">{t('booking.bookingConfirmedDesc')}</p>
+                    
+                    <div className="bg-brand-50 rounded-lg p-6 mb-6 inline-block">
+                      <div className="text-sm text-gray-600 mb-1">{t('booking.bookingId')}</div>
+                      <div className="text-3xl font-bold text-brand-600" data-testid="text-booking-id">{bookingId}</div>
+                    </div>
+                    
+                    {/* Payment Method Info */}
+                    <div className="bg-gray-50 rounded-lg p-4 mb-6 max-w-md mx-auto">
+                      <div className="flex items-center justify-center gap-2 text-gray-700">
+                        <Building2 className="w-5 h-5 text-green-600" />
+                        <span className="font-medium">{t('booking.paymentPayAtAgency')}</span>
+                      </div>
+                      <p className="text-sm text-gray-600 mt-2 text-center">
+                        {t('booking.bringIdAndLicense')}
+                      </p>
+                    </div>
+                    
+                    <p className="text-gray-600 mb-8">
+                      {t('booking.confirmationEmail')} <span className="font-semibold">{customerEmail}</span>
+                    </p>
+                    
+                    <div className="flex gap-4 justify-center">
+                      <Button 
+                        variant="outline" 
+                        className="gap-2" 
+                        onClick={generatePDF}
+                        data-testid="button-download-pdf"
+                      >
+                        <Download className="w-4 h-4" />
+                        {t('booking.downloadPDF')}
+                      </Button>
+                      <Button onClick={() => window.location.href = '/'} data-testid="button-back-home">
+                        {t('booking.backToHome')}
+                      </Button>
+                    </div>
+                  </>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
